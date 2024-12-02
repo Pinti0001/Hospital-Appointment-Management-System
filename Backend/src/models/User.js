@@ -4,9 +4,13 @@ const userSchema = new mongoose.Schema(
   {
     email: {
       type: String,
-      required: true,
       unique: true,
       trim: true,
+    },
+    mobile: {
+      type: String,
+      required: true,
+      unique: true,
     },
     password: {
       type: String,
@@ -21,7 +25,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: function () {
         return this.userType === "hospital";
-      }, 
+      },
     },
     hospitalAddress: {
       type: String,
@@ -29,9 +33,35 @@ const userSchema = new mongoose.Schema(
         return this.userType === "hospital";
       },
     },
+    state: {
+      type: String,
+      required: function () {
+        return this.userType === "hospital";
+      },
+    },
+    district: {
+      type: String,
+      required: function () {
+        return this.userType === "hospital";
+      },
+    },
+    city: {
+      type: String,
+      required: function () {
+        return this.userType === "hospital";
+      },
+    },
+    clinicOrHospital: {
+      type: String,
+      enum: ["clinic", "hospital"],
+      required: function () {
+        return this.userType === "hospital";
+      },
+    },
   },
   { timestamps: true }
 );
+
 const User = mongoose.model("User", userSchema);
 
-export default User
+export default User;
