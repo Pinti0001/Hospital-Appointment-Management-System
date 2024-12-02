@@ -4,10 +4,14 @@ import {generateToken} from "../config/jwt.js"
 
 export const signup = async (req, res) => {
   try {
-    const { email, password, userType, hospitalName, hospitalAddress } = req.body;
+    const { email, password, userType, hospitalName, hospitalAddress, mobile , state, district, city , clinicOrHospital} = req.body;
 
-    if (userType === "hospital" && (!hospitalName || !hospitalAddress)) {
-      return res.status(400).json({ message: "Hospital details are required" });
+    if (userType === "hospital" && (!email)) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+
+    if (userType === "hospital" && (!hospitalName || !hospitalAddress || !state || !district ||!city || !clinicOrHospital)) {
+      return res.status(400).json({ message: "All details are required" });
     }
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -19,6 +23,11 @@ export const signup = async (req, res) => {
       email,
       password: hashedPassword,
       userType,
+      mobile,
+      state,
+      city,
+      district,
+      clinicOrHospital,
       hospitalName: userType === "hospital" ? hospitalName : undefined,
       hospitalAddress: userType === "hospital" ? hospitalAddress : undefined,
     });
@@ -40,8 +49,8 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
     try {
-      const { email, password } = req.body;
-      const user = await User.findOne({ email });
+      const { mobile, password } = req.body;
+      const user = await User.findOne({ mobile });
       if (!user) {
         return res.status(400).json({ message: "Invalid credentials" });
       }
