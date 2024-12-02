@@ -4,6 +4,8 @@
   "description": "This application allows patients and doctors to interact seamlessly. It allows a patient to make appointments at their preferred hospital with their preferred doctor and hospitals to receive and manage these requests.",
   "main": "index.js",
   "scripts": {
+    "start": "npx nodemon src/app.js",
+    "dev": "nodemon src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
