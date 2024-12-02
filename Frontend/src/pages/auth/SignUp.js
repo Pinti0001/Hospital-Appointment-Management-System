@@ -194,7 +194,7 @@ const Signup = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className={`bg-white p-6 rounded-lg shadow-md w-96 ${userType === "hospital" ? "w-[700px]" : "w-[400px]"}`}>
+      <div className={`bg-white p-6 rounded-lg shadow-md w-96 ${userType === "hospital" ? "w-[700px] mt-20" : "w-[400px]"}`}>
         <div className="text-center mb-6">
           <FaUserPlus size={50} className="text-purple-500 mx-auto" />
           <h2 className="text-2xl font-bold text-gray-800">Signup</h2>

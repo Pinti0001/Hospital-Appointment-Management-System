@@ -8,7 +8,7 @@ const Navbar = () => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
-    <nav className="bg-gray-800 p-4">
+    <nav className="bg-gray-800 p-4 fixed w-full z-50">
       <div className="max-w-auto mx-5 flex items-center justify-between ">
         <div className="flex-shrink-0">
           <Link to="/">

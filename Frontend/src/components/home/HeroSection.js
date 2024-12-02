@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {images} from '../../assets/landingPageCardImg'
+import { images } from '../../assets/landingPageCardImg'
 import applestore from '../../assets/applestore.svg';
 import playstore from '../../assets/playstore.svg';
+import nha from '../../assets/nhalogo.svg';
+import digital from '../../assets/digitalmissionlogo.svg';
 
 const HeroSection = () => {
 
@@ -17,7 +19,7 @@ const HeroSection = () => {
 
   return (
     <div className="relative overflow-hidden  bg-slate-100	h-screen  ">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-36 pb-10 grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Left Side Content */}
         <div className="flex flex-col justify-center items-start space-y-6">
           <h1 className="text-4xl sm:text-5xl font-extrabold p-6 ">
@@ -25,7 +27,7 @@ const HeroSection = () => {
           </h1>
           <div className="flex space-x-4 ">
             <a
-              href="book-appointment"
+              href="signup"
               className="inline-block bg-green-500 hover:bg-green-600 text-white px-6 py-3 my-5 rounded-md text-lg font-medium"
             >
               Book Your Appointment
@@ -38,8 +40,8 @@ const HeroSection = () => {
             </a>
           </div>
           <p className="text-lg font-semibold py-4 text-center text-gray-800 md:text-xl lg:text-2xl bg-gradient-to-r from-blue-700 to-teal-600 bg-clip-text text-transparent">
-  India’s No. 1 app for appointment and discussion.
-</p>
+            India’s No. 1 app for appointment and discussion.
+          </p>
 
           <div className="flex space-x-2">
             <a
@@ -72,6 +74,16 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
+      <div className="px-6 sm:px-6 lg:px-1 bg-gradient-to-r from-blue-500 to-teal-300 w-full flex items-center justify-between py-4">
+        <div className="space-x-4 flex px-24">
+          <img src={nha} alt="NationalHealthAuthority" />
+          <img src={digital} alt="Digitle" />
+        </div>
+        <h3 className="text-2xl lg:text-3xl px-24 font-bold text-black ">
+          भारत का  No. 1 डिजिटल मेडिकल सारथी
+        </h3>
+      </div>
+
     </div>
   );
 };
