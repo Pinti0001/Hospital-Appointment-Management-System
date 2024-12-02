@@ -9,7 +9,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-gray-800 p-4">
-      <div className="max-w-7xl mx-5 flex items-center justify-between ">
+      <div className="max-w-auto mx-5 flex items-center justify-between ">
         <div className="flex-shrink-0">
           <Link to="/">
             <img src="/logo.png" alt="Logo" className="h-10" />

@@ -1,0 +1,79 @@
+import React, { useState, useEffect } from 'react';
+import {images} from '../../assets/landingPageCardImg'
+import applestore from '../../assets/applestore.svg';
+import playstore from '../../assets/playstore.svg';
+
+const HeroSection = () => {
+
+  const [currentImage, setCurrentImage] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage((prevImage) => (prevImage + 1) % images.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [images.length]);
+
+  return (
+    <div className="relative overflow-hidden  bg-slate-100	h-screen  ">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Left Side Content */}
+        <div className="flex flex-col justify-center items-start space-y-6">
+          <h1 className="text-4xl sm:text-5xl font-extrabold p-6 ">
+            Welcome to <span className='text-transparent bg-gradient-to-r from-[#4b6af5] to-[#26cad9] bg-clip-text'>HAMS</span>
+          </h1>
+          <div className="flex space-x-4 ">
+            <a
+              href="book-appointment"
+              className="inline-block bg-green-500 hover:bg-green-600 text-white px-6 py-3 my-5 rounded-md text-lg font-medium"
+            >
+              Book Your Appointment
+            </a>
+            <a
+              href="signup"
+              className="inline-block bg-cyan-400 hover:bg-cyan-500 text-white px-6 py-3 my-5 rounded-md text-lg font-medium"
+            >
+              Register Your Hospital/Clinic
+            </a>
+          </div>
+          <p className="text-lg font-semibold py-4 text-center text-gray-800 md:text-xl lg:text-2xl bg-gradient-to-r from-blue-700 to-teal-600 bg-clip-text text-transparent">
+  India’s No. 1 app for appointment and discussion.
+</p>
+
+          <div className="flex space-x-2">
+            <a
+              href="https://www.apple.com/app-store/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className=" px-3 py-3 rounded-md"
+            >
+              <img src={applestore} alt="applestore-logo" />
+            </a>
+            <a
+              href="https://play.google.com/store"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-3 rounded-md"
+            >
+              <img src={playstore} alt="playstore-logo" />
+            </a>
+          </div>
+        </div>
+
+        {/* Right Side Image Card */}
+        <div className="relative w-full h-80 lg:h-auto ">
+          <div className="absolute inset-0 flex justify-center items-center">
+            <img
+              src={images[currentImage]}
+              alt="img"
+              className="object-cover w-full h-full rounded-lg shadow-2xl"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default HeroSection;
