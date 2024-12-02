@@ -5,17 +5,19 @@ import Login from './pages/auth/Login';
 import SignUp from './pages/auth/SignUp';
 import HospitalDashboard from './pages/hospital/HospitalDashboard';
 import BookAppointment from './pages/patient/BookAppointment';
+import AboutUs from './pages/about/AboutUs';
 
 function App() {
   return (
-   <Routes>
+   <>
     <Navbar/>
+   <Routes>
     <Route path="/signup" element={<SignUp/>}/>
     <Route path="/login" element={<Login/>}/>
     <Route path="/hospitaldashboard" element={<HospitalDashboard/>}/>
     <Route path="/bookappointment" element={<BookAppointment/>}/>
 
-   </Routes>
+   </Routes></>
 
   );
 }
