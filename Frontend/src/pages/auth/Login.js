@@ -5,7 +5,7 @@ import { login } from "../services/Api";
 
 const Login = () => {
   const [userType, setUserType] = useState("patient");
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ mobile: "", password: "" });
   const navigate = useNavigate("");
 
   const handleInputChange = (e) => {
@@ -18,7 +18,7 @@ const Login = () => {
   
     try {
       const response = await login({
-        email: formData.email,
+        mobile: formData.mobile,
         password: formData.password,
         userType,
       });
@@ -65,11 +65,11 @@ const Login = () => {
         </div>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-600">Email</label>
+            <label className="block text-gray-600">Mobile No.</label>
             <input
-              type="email"
-              name="email"
-              value={formData.email}
+              type="mobile"
+              name="mobile"
+              value={formData.mobile}
               onChange={handleInputChange}
               required
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
