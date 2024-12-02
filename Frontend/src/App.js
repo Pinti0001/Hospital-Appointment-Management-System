@@ -6,12 +6,14 @@ import SignUp from './pages/auth/SignUp';
 import HospitalDashboard from './pages/hospital/HospitalDashboard';
 import BookAppointment from './pages/patient/BookAppointment';
 import AboutUs from './pages/about/AboutUs';
+import Home from './pages/home/Home';
 
 function App() {
   return (
    <>
     <Navbar/>
    <Routes>
+    <Route path="/" element={<Home/>}/> 
     <Route path="/signup" element={<SignUp/>}/>
     <Route path="/login" element={<Login/>}/>
     <Route path="/hospitaldashboard" element={<HospitalDashboard/>}/>

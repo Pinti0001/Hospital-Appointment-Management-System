@@ -343,6 +343,7 @@ const Signup = () => {
           >
             Signup
           </button>
+
           <div className="flex justify-center">
             <p className="pr-2">Already have an account?</p>
             <Link to="/login" className="text-blue-500">
