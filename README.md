@@ -127,9 +127,39 @@ To run the Hospital Appointment Management System locally, follow the steps belo
 - MongoDB (or a cloud instance like MongoDB Atlas)
 - Git
 
+
 ### Steps
 
 1. Clone the repository:
    ```bash
    git clone https://github.com/yourusername/Hospital-Appointment-Management-System.git
    cd Hospital-Appointment-Management-System
+   
+
+2. Install the dependencies for both frontend and backend:
+
+   - For Backend:
+       ```bash
+       cd backend
+       npm install
+   - For Frontend
+     ```bash
+     cd frontend
+     npm install
+     
+3. Run the development server:
+
+   - For Backend:
+       ```bash
+       npm start
+
+   - For Frontend
+     ```bash
+     npm start
+4. Open your browser and go to `http://localhost:3000` to view the application.
+
+
+
+
+
+
