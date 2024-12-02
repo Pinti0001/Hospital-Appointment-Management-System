@@ -27,7 +27,7 @@ const HeroSection = () => {
           </h1>
           <div className="flex space-x-4 ">
             <a
-              href="book-appointment"
+              href="signup"
               className="inline-block bg-green-500 hover:bg-green-600 text-white px-6 py-3 my-5 rounded-md text-lg font-medium"
             >
               Book Your Appointment
