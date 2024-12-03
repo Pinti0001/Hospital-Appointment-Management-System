@@ -32,7 +32,7 @@ const HeroSection = () => {
             
           </div>
           <p className="text-lg font-semibold py-4 text-center text-gray-800 md:text-xl lg:text-2xl bg-gradient-to-r from-blue-700 to-teal-600 bg-clip-text text-transparent">
-            India’s No. 1 app for appointment and discussion.
+           मेडिकल के लिए अपॉइंटमेंट और चर्चा के लिए भारत का नंबर 1 ऐप। 
           </p>
 
           <div className="flex space-x-2">
