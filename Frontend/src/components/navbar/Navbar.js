@@ -20,7 +20,7 @@ const Navbar = () => {
           <Link to="/" className="text-white hover:text-orange-400">Home</Link>
           <Link to="/hospital" className="text-white hover:text-orange-400">Hospital</Link>
           <Link to="/service" className="text-white hover:text-orange-400">Service</Link>
-          <Link to="/about" className="text-white hover:text-orange-400">About Us</Link>
+          <Link to="/notification" className="text-white hover:text-orange-400">Notifications</Link>
         </div>
         <div className="hidden sm:block relative">
           <button
