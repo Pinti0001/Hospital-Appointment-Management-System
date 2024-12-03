@@ -1,33 +1,43 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const Navbar = () => {
-
+const UserNav = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [showDropdown, setShowDropdown] = useState(false);
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
     return (
         <nav className="bg-gray-800 p-4 fixed w-full z-50">
-            <div className="max-w-auto mx-5 flex items-center justify-between ">
+            <div className="max-w-auto mx-5 flex items-center justify-between">
                 <div className="flex-shrink-0">
                     <Link to="/">
                         <img src="/logo.png" alt="Logo" className="h-10" />
                     </Link>
                 </div>
-                <div className="hidden sm:flex space-x-8 ">
+
+                {/* Desktop Menu */}
+                <div className="hidden sm:flex space-x-8">
                     <Link to="/" className="text-white hover:text-orange-400">Home</Link>
                     <Link to="/hospital" className="text-white hover:text-orange-400">Hospital</Link>
                     <Link to="/service" className="text-white hover:text-orange-400">Service</Link>
-                    <Link to="/about" className="text-white hover:text-orange-400">About Us</Link>
+                    <Link to="/notification" className="text-white hover:text-orange-400">Notifications</Link>
                 </div>
-                <div className="hidden sm:block">
-                    <Link
-                        to="/login"
+
+                {/* Desktop Login/Signup Button */}
+                <div className="hidden sm:block relative">
+                    <button
+                        onClick={() => setShowDropdown(!showDropdown)}
                         className="text-white px-4 py-2 rounded-md bg-orange-500 hover:bg-orange-600"
                     >
-                        Login / Sign In
-                    </Link>
+                        Login / Sign Up
+                    </button>
+                    {showDropdown && (
+                        <div className="dropdown absolute right-0 mt-2 w-48 bg-white text-black shadow-lg rounded-md">
+                            <Link to="/hospitallogin" className="block px-4 py-2 hover:bg-gray-200">Hospital Login</Link>
+                            <Link to="/userlogin" className="block px-4 py-2 hover:bg-gray-200">User Login</Link>
+                        </div>
+                    )}
                 </div>
 
                 {/* Hamburger Button */}
@@ -55,22 +65,30 @@ const Navbar = () => {
             </div>
 
             {/* Mobile Menu */}
-            <div
-                className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'} bg-gray-800 p-4`}
-            >
+            <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'} bg-gray-800 p-4`}>
                 <Link to="/" className="block text-white py-2 hover:text-orange-400">Home</Link>
                 <Link to="/hospital" className="block text-white py-2 hover:text-orange-400">Hospital</Link>
                 <Link to="/service" className="block text-white py-2 hover:text-orange-400">Service</Link>
-                <Link to="/about" className="block text-white py-2 hover:text-orange-400">About Us</Link>
-                <Link
-                    to="/login"
-                    className="block text-white py-2 px-4 rounded-md bg-orange-500 hover:bg-orange-600"
-                >
-                    Login / Sign In
-                </Link>
+                <Link to="/notification" className="block text-white py-2 hover:text-orange-400">Notifications</Link>
+
+                {/* Login / Sign Up Button for Mobile */}
+                <div className="relative">
+                    <button
+                        onClick={() => setShowDropdown(!showDropdown)}
+                        className="block text-white py-2 px-4 rounded-md bg-orange-500 hover:bg-orange-600 w-full"
+                    >
+                        Login / Sign Up
+                    </button>
+                    {showDropdown && (
+                        <div className="dropdown mt-2 w-full bg-white text-black shadow-lg rounded-md">
+                            <Link to="/hospitallogin" className="block px-4 py-2 hover:bg-gray-200">Hospital Login</Link>
+                            <Link to="/userlogin" className="block px-4 py-2 hover:bg-gray-200">User Login</Link>
+                        </div>
+                    )}
+                </div>
             </div>
         </nav>
     );
 };
 
-export default Navbar;
+export default UserNav;
