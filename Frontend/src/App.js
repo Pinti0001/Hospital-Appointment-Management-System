@@ -8,11 +8,13 @@ import UserLogin from './pages/auth/UserLogin';
 import HospitalSignup from './pages/auth/HospitalSignUp';
 import HospitalLogin from './pages/auth/HospitalLogin';
 import UserSignup from './pages/auth/UserSignUp';
+import HospitalNav from './components/navbar/HospitalNav';
 
 function App() {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
+      <HospitalNav/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/usersignup" element={<UserSignup />} />
