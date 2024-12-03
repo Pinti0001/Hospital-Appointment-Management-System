@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
-import { Link, useNavigate} from "react-router-dom";
-import { login } from "../services/Api";
+import { Link, useNavigate } from "react-router-dom";
+import { userLogin } from "../services/Api";
 
-const Login = () => {
-  const [userType, setUserType] = useState("patient");
+const UserLogin = () => {
   const [formData, setFormData] = useState({ mobile: "", password: "" });
   const navigate = useNavigate("");
 
@@ -15,59 +14,36 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
-      const response = await login({
+      const response = await userLogin({
         mobile: formData.mobile,
         password: formData.password,
-        userType,
+        userType: "patient", // Explicitly set userType as "patient"
       });
-  
+
       // Store the JWT token in localStorage or sessionStorage
       localStorage.setItem("token", response.token);
-  
-      // Navigate based on user type
-      if (userType === "hospital") {
-        navigate("/hospitaldashboard");
-      } else {
-        navigate("/bookappointment");
-      }
+
+      // Navigate to user appointment booking page
+      navigate("/bookappointment");
     } catch (error) {
       alert(error.message || "Login failed");
     }
   };
-  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-6 rounded-lg shadow-md w-96">
         <div className="text-center mb-6">
           <FaUserCircle size={50} className="text-purple-500 mx-auto" />
-          <h2 className="text-2xl font-bold text-gray-800">Login</h2>
-        </div>
-        <div className="flex justify-center mb-4">
-          <button
-            onClick={() => setUserType("patient")}
-            className={`px-4 py-2 text-sm font-medium ${
-              userType === "patient" ? "bg-purple-500 text-white" : "bg-gray-200"
-            } rounded-l-md`}
-          >
-            Patient
-          </button>
-          <button
-            onClick={() => setUserType("hospital")}
-            className={`px-4 py-2 text-sm font-medium ${
-              userType === "hospital" ? "bg-purple-500 text-white" : "bg-gray-200"
-            } rounded-r-md`}
-          >
-            Hospital
-          </button>
+          <h2 className="text-2xl font-bold text-gray-800">User Login</h2>
         </div>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-600">Mobile No.</label>
+            <label className="block text-gray-600">Mobile Number</label>
             <input
-              type="mobile"
+              type="text"
               name="mobile"
               value={formData.mobile}
               onChange={handleInputChange}
@@ -92,13 +68,16 @@ const Login = () => {
           >
             Login
           </button>
-         <div className="flex justify-center" >
-        <p className='pr-2'> Don't have Account? </p> <Link to ="/signup" className="text-blue-500"> Sign Up</Link>
-         </div>
+          <div className="flex justify-center mt-4">
+            <p className="pr-2">Don't have an account?</p>
+            <Link to="/usersignup" className="text-blue-500">
+              Sign Up
+            </Link>
+          </div>
         </form>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default UserLogin;

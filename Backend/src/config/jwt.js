@@ -1,17 +1,20 @@
 import jwt from "jsonwebtoken";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 
-// Generate JWT Token
-export const generateToken = (userId, userType) => {
-    dotenv.config()
+dotenv.config();
+
+export const generateToken = (userId) => {
   return jwt.sign(
-    { userId, userType },
-    process.env.JWT_SECRET, // secret key from .env
+    { userId }, // Only include userId
+    process.env.JWT_SECRET, // Secret key from .env
     { expiresIn: "1h" } // Token expiration time
   );
 };
 
-// Verify JWT Token
 export const verifyToken = (token) => {
-  return jwt.verify(token, process.env.JWT_SECRET);
+  try {
+    return jwt.verify(token, process.env.JWT_SECRET);
+  } catch (error) {
+    throw new Error("Invalid token");
+  }
 };
