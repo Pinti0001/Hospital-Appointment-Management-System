@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaUserPlus } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link,  useNavigate  } from "react-router-dom";
 import { hospitalSignup } from "../services/Api"; // Assume this is the API for signup
 
 const HospitalSignup = () => {
@@ -140,6 +140,7 @@ const HospitalSignup = () => {
     ]
   };
 
+  const navigate = useNavigate(); 
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -157,14 +158,20 @@ const HospitalSignup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+  
+    try { 
       const response = await hospitalSignup({
         ...formData,
         userType: "hospital", // Set userType to hospital explicitly
       });
-
-      alert("Signup successful!");
-      // Redirect to login or dashboard after successful signup
+  
+        alert("Signup successful!");
+        navigate("/");
+      
     } catch (error) {
       alert(error.message || "Signup failed");
     }
@@ -312,3 +319,4 @@ const HospitalSignup = () => {
 };
 
 export default HospitalSignup;
+

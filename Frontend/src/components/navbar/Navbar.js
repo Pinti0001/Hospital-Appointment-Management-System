@@ -6,6 +6,7 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   return (
     <nav className="bg-gray-800 p-4 fixed w-full z-50">
@@ -21,13 +22,41 @@ const Navbar = () => {
           <Link to="/service" className="text-white hover:text-orange-400">Service</Link>
           <Link to="/about" className="text-white hover:text-orange-400">About Us</Link>
         </div>
-        <div className="hidden sm:block">
-          <Link
-            to="/login"
+        <div className="hidden sm:block relative">
+          <button
+            onClick={() => setShowDropdown(!showDropdown)}
             className="text-white px-4 py-2 rounded-md bg-orange-500 hover:bg-orange-600"
           >
-            Login / Sign In
-          </Link>
+            Login / Sign Up
+          </button>
+          {showDropdown && (
+            <div className="dropdown absolute right-0 mt-2 w-48 bg-white text-black shadow-lg rounded-md">
+              <Link
+                to="/hospitallogin"
+                className="block px-4 py-2 hover:bg-gray-200"
+              >
+                Hospital Login
+              </Link>
+              {/* <Link
+                to="/hospitalsignup"
+                className="block px-4 py-2 hover:bg-gray-200"
+              >
+                Hospital Sign Up
+              </Link> */}
+              <Link
+                to="/userlogin"
+                className="block px-4 py-2 hover:bg-gray-200"
+              >
+                User Login
+              </Link>
+              {/* <Link
+                to="/patient-signup"
+                className="block px-4 py-2 hover:bg-gray-200"
+              >
+                User Sign Up
+              </Link> */}
+            </div>
+          )}
         </div>
 
         {/* Hamburger Button */}
@@ -74,3 +103,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
