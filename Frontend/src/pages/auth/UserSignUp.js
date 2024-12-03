@@ -31,7 +31,7 @@ const UserSignup = () => {
       });
 
       alert("Signup successful!");
-      navigate("/bookappointment")
+      navigate("/");
      
     } catch (error) {
       alert(error.message || "Signup failed");
