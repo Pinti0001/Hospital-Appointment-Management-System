@@ -24,6 +24,7 @@ const HospitalLogin = () => {
 
       // Store the JWT token in localStorage or sessionStorage
       localStorage.setItem("token", response.token);
+      localStorage.setItem("email", response.email);
 
       // Navigate to hospital dashboard
       navigate("/hospitaldashboard");

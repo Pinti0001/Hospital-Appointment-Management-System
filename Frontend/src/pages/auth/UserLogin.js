@@ -4,11 +4,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { userLogin } from "../services/Api";
 
 const UserLogin = () => {
-  const [formData, setFormData] = useState({ mobile: "", password: "" });
-  const navigate = useNavigate("");
+  const [formData, setFormData] = useState({ credential: "", password: "" });
+  const [isEmail, setIsEmail] = useState(false);
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "credential") {
+      // Check if input contains an "@" to classify as email
+      setIsEmail(value.includes("@"));
+    }
+
     setFormData({ ...formData, [name]: value });
   };
 
@@ -16,16 +23,24 @@ const UserLogin = () => {
     e.preventDefault();
 
     try {
-      const response = await userLogin({
-        mobile: formData.mobile,
+      // Create payload dynamically based on input type
+      const payload = {
         password: formData.password,
-        userType: "patient", // Explicitly set userType as "patient"
-      });
+        userType: "patient",
+      };
+      if (isEmail) {
+        payload.email = formData.credential;
+      } else {
+        payload.mobile = formData.credential;
+      }
 
-      // Store the JWT token in localStorage or sessionStorage
+      const response = await userLogin(payload);
+
+      // Store token and email if available
       localStorage.setItem("token", response.token);
+      if (response.email) localStorage.setItem("email", response.email);
 
-      // Navigate to user appointment booking page
+      // Navigate to appointment booking page
       navigate("/bookappointment");
     } catch (error) {
       alert(error.message || "Login failed");
@@ -41,13 +56,16 @@ const UserLogin = () => {
         </div>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-600">Mobile Number</label>
+            <label className="block text-gray-600">
+              {isEmail ? "Email" : "Mobile Number"}
+            </label>
             <input
               type="text"
-              name="mobile"
-              value={formData.mobile}
+              name="credential"
+              value={formData.credential}
               onChange={handleInputChange}
               required
+              placeholder="Enter email or mobile"
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>

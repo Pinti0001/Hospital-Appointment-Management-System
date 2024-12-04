@@ -168,7 +168,8 @@ const HospitalSignup = () => {
         ...formData,
         userType: "hospital", // Set userType to hospital explicitly
       });
-  
+      localStorage.setItem("token", response.token);
+      localStorage.setItem("email", response.email);
         alert("Signup successful!");
         navigate("/");
       
