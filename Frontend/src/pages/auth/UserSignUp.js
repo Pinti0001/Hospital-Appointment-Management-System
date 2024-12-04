@@ -6,10 +6,12 @@ import { userSignup } from "../services/Api"; // Assume this is the API for sign
 const UserSignup = () => {
   const [formData, setFormData] = useState({
     mobile: "",
+    email: "",
     password: "",
     confirmPassword: "",
   });
-  const navigate = useNavigate("")
+  const navigate = useNavigate();
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -17,6 +19,11 @@ const UserSignup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!formData.mobile && !formData.email) {
+      alert("Please enter either a mobile number or an email address!");
+      return;
+    }
 
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords do not match!");
@@ -26,13 +33,14 @@ const UserSignup = () => {
     try {
       const response = await userSignup({
         mobile: formData.mobile,
+        email: formData.email,
         password: formData.password,
         userType: "user", // Set userType explicitly for users
       });
-
+      localStorage.setItem("token", response.token);
+      {response.email&& localStorage.setItem("email", response.email);}
       alert("Signup successful!");
       navigate("/");
-     
     } catch (error) {
       alert(error.message || "Signup failed");
     }
@@ -53,7 +61,18 @@ const UserSignup = () => {
               name="mobile"
               value={formData.mobile}
               onChange={handleInputChange}
-              required
+              placeholder="Enter mobile number (optional)"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-600">Email Address</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              placeholder="Enter email (optional)"
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
@@ -85,7 +104,7 @@ const UserSignup = () => {
           >
             Signup
           </button>
-          <div className="flex justify-center">
+          <div className="flex justify-center mt-4">
             <p className="pr-2">Already have an account?</p>
             <Link to="/userlogin" className="text-blue-500">
               Log In
