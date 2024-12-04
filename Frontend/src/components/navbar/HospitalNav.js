@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FcHome, FcCalendar, FcReading, FcSms, FcSettings, FcManager } from "react-icons/fc";
+import { FcHome, FcCalendar, FcReading, FcSms,  FcManager } from "react-icons/fc";
+import { FaHospitalUser } from "react-icons/fa";
+
 
 const HospitalNav = () => {
     const [isCollapsed, setIsCollapsed] = useState(false);
@@ -59,9 +61,9 @@ const HospitalNav = () => {
                     isCollapsed={isCollapsed}
                 />
                 <NavItem
-                    icon={<FcSettings className="w-6 h-6" />}
-                    text="Settings"
-                    link="/settings"
+                    icon={<FaHospitalUser className="w-6 h-6" />}
+                    text="Hospital Profile"
+                    link="/hospitalpage"
                     isCollapsed={isCollapsed}
                 />
                 <NavItem
