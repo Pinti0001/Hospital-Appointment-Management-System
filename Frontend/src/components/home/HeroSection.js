@@ -4,6 +4,7 @@ import applestore from '../../assets/applestore.svg';
 import playstore from '../../assets/playstore.svg';
 import nha from '../../assets/nhalogo.svg';
 import digital from '../../assets/digitalmissionlogo.svg';
+import { Link } from 'react-router-dom';
 
 const HeroSection = () => {
 
@@ -12,7 +13,7 @@ const HeroSection = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage((prevImage) => (prevImage + 1) % images.length);
-    }, 5000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [images.length]);
@@ -26,21 +27,12 @@ const HeroSection = () => {
             Welcome to <span className='text-transparent bg-gradient-to-r from-[#4b6af5] to-[#26cad9] bg-clip-text'>HAMS</span>
           </h1>
           <div className="flex space-x-4 ">
-            <a
-              href="signup"
-              className="inline-block bg-green-500 hover:bg-green-600 text-white px-6 py-3 my-5 rounded-md text-lg font-medium"
-            >
-              Book Your Appointment
-            </a>
-            <a
-              href="signup"
-              className="inline-block bg-cyan-400 hover:bg-cyan-500 text-white px-6 py-3 my-5 rounded-md text-lg font-medium"
-            >
-              Register Your Hospital/Clinic
-            </a>
+            <Link to="/usersignup" className="inline-block bg-green-500 hover:bg-green-600 text-white px-6 py-3 my-5 rounded-md text-lg font-medium"> Book Your Appointment</Link>
+            <Link to="/hospitalsignup" className="inline-block bg-cyan-400 hover:bg-cyan-500 text-white px-6 py-3 my-5 rounded-md text-lg font-medium">  Register Your Hospital/Clinic</Link>
+
           </div>
           <p className="text-lg font-semibold py-4 text-center text-gray-800 md:text-xl lg:text-2xl bg-gradient-to-r from-blue-700 to-teal-600 bg-clip-text text-transparent">
-            India’s No. 1 app for appointment and discussion.
+            मेडिकल के लिए अपॉइंटमेंट और चर्चा के लिए भारत का नंबर 1 ऐप. . .
           </p>
 
           <div className="flex space-x-2">

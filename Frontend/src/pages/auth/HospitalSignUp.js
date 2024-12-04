@@ -1,24 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { FaUserPlus } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
-import { signup } from "../services/Api";
+import { Link,  useNavigate  } from "react-router-dom";
+import { hospitalSignup } from "../services/Api"; // Assume this is the API for signup
 
-const Signup = () => {
-  const [userType, setUserType] = useState("patient");
-  const [states, setStates] = useState([]);
-  const [districts, setDistricts] = useState([]);
+const HospitalSignup = () => {
   const [formData, setFormData] = useState({
-    email: "",
     mobile: "",
     password: "",
     confirmPassword: "",
+    email: "",
     hospitalName: "",
     hospitalAddress: "",
     state: "",
     district: "",
     city: "",
-    clinicOrHospital: "hospital",
   });
+  const [states,setStates] = useState([]);
+  const [districts,setDistricts] = useState([]);
   const indianStates = [
     "Andhra Pradesh",
     "Arunachal Pradesh",
@@ -142,6 +140,12 @@ const Signup = () => {
     ]
   };
 
+  const navigate = useNavigate(); 
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
   useEffect(() => {
     setStates(indianStates);
   }, []);
@@ -151,12 +155,6 @@ const Signup = () => {
     }
   }, [formData.state]);
 
-  const navigate = useNavigate("")
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -164,29 +162,17 @@ const Signup = () => {
       alert("Passwords do not match!");
       return;
     }
-
-    try {
-      const response = await signup({
-        email: formData.email,
-        mobile: formData.mobile,
-        password: formData.password,
-        userType,
-        state:formData.state,
-        hospitalName: formData.hospitalName,
-        hospitalAddress: formData.hospitalAddress,
-        state: formData.state,
-        district: formData.district,
-        city: formData.city,
-        clinicOrHospital: formData.clinicOrHospital,
+  
+    try { 
+      const response = await hospitalSignup({
+        ...formData,
+        userType: "hospital", // Set userType to hospital explicitly
       });
-
       localStorage.setItem("token", response.token);
-
-      if (userType === "hospital") {
-        navigate("/hospitaldashboard");
-      } else {
-        navigate("/bookappointment");
-      }
+      localStorage.setItem("email", response.email);
+        alert("Signup successful!");
+        navigate("/");
+      
     } catch (error) {
       alert(error.message || "Signup failed");
     }
@@ -194,28 +180,10 @@ const Signup = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className={`bg-white p-6 rounded-lg shadow-md w-96 ${userType === "hospital" ? "w-[700px] mt-20" : "w-[400px]"}`}>
+      <div className="bg-white p-6 rounded-lg shadow-md w-96 w-[700px] mt-20">
         <div className="text-center mb-6">
           <FaUserPlus size={50} className="text-purple-500 mx-auto" />
-          <h2 className="text-2xl font-bold text-gray-800">Signup</h2>
-        </div>
-        <div className="flex justify-center mb-4">
-          <button
-            onClick={() => setUserType("patient")}
-            className={`px-4 py-2 text-sm font-medium ${
-              userType === "patient" ? "bg-purple-500 text-white" : "bg-gray-200"
-            } rounded-l-md`}
-          >
-            Patient
-          </button>
-          <button
-            onClick={() => setUserType("hospital")}
-            className={`px-4 py-2 text-sm font-medium ${
-              userType === "hospital" ? "bg-purple-500 text-white" : "bg-gray-200"
-            } rounded-r-md`}
-          >
-            Hospital
-          </button>
+          <h2 className="text-2xl font-bold text-gray-800">Hospital Signup</h2>
         </div>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -251,9 +219,7 @@ const Signup = () => {
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
-          {userType === "hospital" && (
-            <>
-              <div className="mb-4">
+          <div className="mb-4">
             <label className="block text-gray-600">Email</label>
             <input
               type="email"
@@ -264,89 +230,86 @@ const Signup = () => {
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
-              <div className="flex gap-4 mb-4">
-                <div className="w-full">
-                  <label className="block text-gray-600">Hospital/Clinic Name</label>
-                  <input
-                    type="text"
-                    name="hospitalName"
-                    value={formData.hospitalName}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  />
-                </div>
-                <div className="w-full">
-                  <label className="block text-gray-600">Hospital Address</label>
-                  <input
-                    type="text"
-                    name="hospitalAddress"
-                    value={formData.hospitalAddress}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  />
-                </div>
-              </div>
-               <div className="flex gap-4 mb-4">
-                <div className="w-full">
-                  <label className="block text-gray-600">State</label>
-                  <select
-                    name="state"
-                    value={formData.state}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  >
-                    <option value="">Select State</option>
-                    {states.map((state) => (
-                      <option key={state} value={state}>
-                        {state}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="w-full">
-                  <label className="block text-gray-600">District</label>
-                  <select
-                    name="district"
-                    value={formData.district}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  >
-                    <option value="">Select District</option>
-                    {districts.map((district, index) => (
-                      <option key={index} value={district}>
-                        {district}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-600">City, PIN Code</label>
-                <input
-                  type="text"
-                  name="city"
-                  value={formData.city}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                />
-              </div>
-            </>
-          )}
+          <div className="flex gap-4 mb-4">
+            <div className="w-full">
+              <label className="block text-gray-600">Hospital/Clinic Name</label>
+              <input
+                type="text"
+                name="hospitalName"
+                value={formData.hospitalName}
+                onChange={handleInputChange}
+                required
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+            <div className="w-full">
+              <label className="block text-gray-600">Hospital Address</label>
+              <input
+                type="text"
+                name="hospitalAddress"
+                value={formData.hospitalAddress}
+                onChange={handleInputChange}
+                required
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+          </div>
+          <div className="flex gap-4 mb-4">
+            <div className="w-full">
+              <label className="block text-gray-600">State</label>
+              <select
+                name="state"
+                value={formData.state}
+                onChange={handleInputChange}
+                required
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              >
+                <option value="">Select State</option>
+                {states.map((state) => (
+                  <option key={state} value={state}>
+                    {state}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="w-full">
+              <label className="block text-gray-600">District</label>
+              <select
+                name="district"
+                value={formData.district}
+                onChange={handleInputChange}
+                required
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              >
+                <option value="">Select District</option>
+                {districts.map((district, index) => (
+                  <option key={index} value={district}>
+                    {district}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-600">City, PIN Code</label>
+            <input
+              type="text"
+              name="city"
+              value={formData.city}
+              onChange={handleInputChange}
+              required
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
           <button
             type="submit"
             className="w-full bg-purple-500 text-white py-2 rounded-md hover:bg-purple-600"
           >
             Signup
           </button>
-
           <div className="flex justify-center">
             <p className="pr-2">Already have an account?</p>
-            <Link to="/login" className="text-blue-500">
+            <Link to="/hospitallogin" className="text-blue-500">
               Log In
             </Link>
           </div>
@@ -356,4 +319,5 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default HospitalSignup;
+
