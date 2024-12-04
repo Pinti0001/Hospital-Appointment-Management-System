@@ -39,6 +39,7 @@ const UserLogin = () => {
       // Store token and email if available
       localStorage.setItem("token", response.token);
       if (response.email) localStorage.setItem("email", response.email);
+      if (response.mobile) localStorage.setItem("mobile", response.mobile);
 
       // Navigate to appointment booking page
       navigate("/bookappointment");
