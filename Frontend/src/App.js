@@ -13,8 +13,8 @@ import HospitalNav from './components/navbar/HospitalNav';
 function App() {
   return (
     <>
-      {/* <Navbar /> */}
-      <HospitalNav/>
+      <Navbar />
+      {/* <HospitalNav/> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/usersignup" element={<UserSignup />} />
