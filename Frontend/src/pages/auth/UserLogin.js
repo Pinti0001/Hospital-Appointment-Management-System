@@ -13,7 +13,7 @@ const UserLogin = () => {
 
     if (name === "credential") {
       // Check if input contains an "@" to classify as email
-      setIsEmail(value.includes("@"));
+      setIsEmail(/^[A-Za-z]+$/.test(value));
     }
 
     setFormData({ ...formData, [name]: value });
@@ -57,7 +57,7 @@ const UserLogin = () => {
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-600">
-              {isEmail ? "Email" : "Mobile Number"}
+              {formData.credential === "" ? "Enter Your Email Or Phone Number" : isEmail ? "Email" : "Phone Number"}
             </label>
             <input
               type="text"
