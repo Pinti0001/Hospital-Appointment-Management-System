@@ -29,10 +29,10 @@ const HeroSection = () => {
           <div className="flex space-x-4 ">
             <Link to="/usersignup" className="inline-block bg-green-500 hover:bg-green-600 text-white px-6 py-3 my-5 rounded-md text-lg font-medium"> Book Your Appointment</Link>
             <Link to="/hospitalsignup" className="inline-block bg-cyan-400 hover:bg-cyan-500 text-white px-6 py-3 my-5 rounded-md text-lg font-medium">  Register Your Hospital/Clinic</Link>
-            
+
           </div>
           <p className="text-lg font-semibold py-4 text-center text-gray-800 md:text-xl lg:text-2xl bg-gradient-to-r from-blue-700 to-teal-600 bg-clip-text text-transparent">
-           मेडिकल के लिए अपॉइंटमेंट और चर्चा के लिए भारत का नंबर 1 ऐप। 
+            मेडिकल के लिए अपॉइंटमेंट और चर्चा के लिए भारत का नंबर 1 ऐप. . .
           </p>
 
           <div className="flex space-x-2">
