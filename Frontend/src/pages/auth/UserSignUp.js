@@ -39,6 +39,8 @@ const UserSignup = () => {
       });
       localStorage.setItem("token", response.token);
       {response.email&& localStorage.setItem("email", response.email);}
+      if (response.mobile) localStorage.setItem("mobile", response.mobile);
+
       alert("Signup successful!");
       navigate("/");
     } catch (error) {
