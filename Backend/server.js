@@ -6,7 +6,9 @@ import authRoutes from "./src/routes/authRoutes.js"
 import { connectDB } from "./src/config/db.js";
 import {authMiddleware} from "./src/middlewares/authMiddleware.js";
 import hospitalRoutes from './src/routes/hospitalRoutes.js';
-import patientRoutes from "./src//routes/patientRoutes.js"
+import patientRoutes from "./src/routes/patientRoutes.js"
+import appointmentRoutes from "./src/routes/appointmentRoutes.js"
+
 
 dotenv.config()
 const app = express();
@@ -22,6 +24,7 @@ app.get("/api/protected", authMiddleware, (req, res) => {
 });
 app.use("/api/hospialprof", hospitalRoutes );
 app.use("/api/user", patientRoutes );
+app.use("/api/appointments", appointmentRoutes)
 
 
 const PORT = process.env.PORT || 5000;

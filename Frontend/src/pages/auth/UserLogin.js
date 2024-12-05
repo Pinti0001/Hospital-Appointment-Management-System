@@ -9,8 +9,9 @@ const UserLogin = () => {
   const [formData, setFormData] = useState({ credential: "", password: "" });
   const [isEmail, setIsEmail] = useState(false);
   const navigate = useNavigate();
-    const userData = useSelector((state) => state.userInfo);
-    const dispatch = useDispatch();
+  const userData = useSelector((state) => state.userInfo);
+  console.log(userData);
+  const dispatch = useDispatch();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

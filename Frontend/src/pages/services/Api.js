@@ -66,3 +66,14 @@ export const getHospitalData = async(hospotalId)=>{
       throw error.response?.data || { message: "Error fetching hospital List" };
     }
   };
+
+export const fetchAppointments = async (uniqueId) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}appointments/getappointment?uniqueId=${uniqueId}`
+    ); //uniqueId is the Hospital Id
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: "Error fetching hospital List" };
+  }
+}

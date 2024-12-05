@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { hospitalLogin } from "../services/Api";
+import { useDispatch, useSelector } from "react-redux";
+import { setHospitalInfo } from "../../slice/hospitalInfo";
 
 const HospitalLogin = () => {
+    const hospitalData = useSelector((state) => state.hospitalInfo);
+    const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({ email: "", password: "" });
   const navigate = useNavigate("");
 
@@ -21,7 +26,18 @@ const HospitalLogin = () => {
         password: formData.password,
         userType: "hospital", // Explicitly set userType as "hospital"
       });
-
+      dispatch(
+        setHospitalInfo({
+          hospitalName: response.hospitalName,
+          email: response.email,
+          number: response.mobile,
+          address: response.hospitalAddress,
+          state: response.state,
+          district: response.district,
+          city_pinCode: response.city,
+          hospitalObjectId: response._id,
+        })
+      );
       // Store the JWT token in localStorage or sessionStorage
       localStorage.setItem("token", response.token);
       localStorage.setItem("email", response.email);
