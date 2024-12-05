@@ -1,6 +1,7 @@
 import './App.css';
 
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, useLocation } from "react-router-dom"
+import HospitalList from './pages/patient/HospitalList';
 
 
 import Navbar from "./components/navbar/Navbar";
@@ -36,7 +37,6 @@ function App() {
     };
   return (
     <>
-
       <Navbar />
       {/* <HospitalNav/> */}
       {/* <UserNav/> */}
@@ -49,11 +49,12 @@ function App() {
         <Route path="/hospitalsignup" element={<HospitalSignup />} />
         <Route path="/hospitallogin" element={<HospitalLogin />} />
         <Route path="/hospitaldashboard" element={<HospitalDashboard />} />
-
+        <Route  path ="/hospital-list" element ={<HospitalList/>}/>
         <Route path="/patientdashboard" element={<PatientDashboard />} />
         <Route path="book-appointment" element ={<BookAppointment/>}/>
 
-       
+
+        <Route path="/bookappointment" element={<BookAppointment />} />
         <Route path="/hospitalpage" element={<HospitalProfile/>} />
 
 

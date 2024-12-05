@@ -35,12 +35,6 @@ const UserNav = () => {
             {/* Sidebar Menu Links */}
             <div className="flex flex-col mt-4 space-y-4">
                 <NavItem
-                    icon={<FcCalendar className="w-6 h-6" />}
-                    text="Book Appointments"
-                    link="/book-appointment"
-                    isCollapsed={isCollapsed}
-                />
-                <NavItem
                     icon={<FcSms className="w-6 h-6" />}
                     text="Messages"
                     link="/messages"
@@ -49,13 +43,13 @@ const UserNav = () => {
                 <NavItem
                     icon={<FcSettings className="w-6 h-6" />}
                     text="Hospital List"
-                    link="/settings"
+                    link="/hospital-list"
                     isCollapsed={isCollapsed}
                 />
                 <NavItem
                     icon={<FcManager className="w-6 h-6" />}
                     text="Profile"
-                    link="/staff"
+                    link="/profile"
                     isCollapsed={isCollapsed}
                 />
             </div>
