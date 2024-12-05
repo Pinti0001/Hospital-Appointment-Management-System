@@ -1,7 +1,8 @@
-const Doctor = require('../models/doctorModel');
+
+import Doctor from '../models/Doctor.js';
 
 // Get all doctors
-exports.getAllDoctors = async (req, res) => {
+export const getAllDoctors = async (req, res) => {
     try {
         const doctors = await Doctor.find().populate('hospital', 'name');
         res.status(200).json(doctors);
@@ -11,7 +12,7 @@ exports.getAllDoctors = async (req, res) => {
 };
 
 // Get doctor by ID
-exports.getDoctorById = async (req, res) => {
+export const getDoctorById = async (req, res) => {
     try {
         const doctor = await Doctor.findById(req.params.id).populate('hospital', 'name');
         if (!doctor) return res.status(404).json({ message: 'Doctor not found' });
@@ -22,7 +23,7 @@ exports.getDoctorById = async (req, res) => {
 };
 
 // Create a new doctor
-exports.createDoctor = async (req, res) => {
+export const createDoctor = async (req, res) => {
     try {
         const newDoctor = new Doctor(req.body);
         const savedDoctor = await newDoctor.save();
@@ -33,7 +34,7 @@ exports.createDoctor = async (req, res) => {
 };
 
 // Update doctor details
-exports.updateDoctor = async (req, res) => {
+export const updateDoctor = async (req, res) => {
     try {
         const updatedDoctor = await Doctor.findByIdAndUpdate(req.params.id, req.body, {
             new: true,
@@ -46,7 +47,7 @@ exports.updateDoctor = async (req, res) => {
 };
 
 // Delete a doctor
-exports.deleteDoctor = async (req, res) => {
+export const deleteDoctor = async (req, res) => {
     try {
         const deletedDoctor = await Doctor.findByIdAndDelete(req.params.id);
         if (!deletedDoctor) return res.status(404).json({ message: 'Doctor not found' });

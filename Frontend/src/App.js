@@ -51,7 +51,7 @@ function App() {
         <Route path="/hospitaldashboard" element={<HospitalDashboard />} />
         <Route  path ="/hospital-list" element ={<HospitalList/>}/>
         <Route path="/patientdashboard" element={<PatientDashboard />} />
-        <Route path="book-appointment" element ={<BookAppointment/>}/>
+        <Route path="/book-appointment" element ={<BookAppointment/>}/>
 
 
         <Route path="/bookappointment" element={<BookAppointment />} />
