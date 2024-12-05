@@ -56,3 +56,13 @@ export const getHospitalData = async(hospotalId)=>{
     throw error.response?.data || { message: "Error fetching hospital data" };
   }
 }
+
+
+ export  const fetchHospitals = async () => {
+    try {
+      const response = await axios.get(`${API_URL}user/getallhospital`); // Update with your backend endpoint
+      return(response.data);
+    } catch (error) {
+      throw error.response?.data || { message: "Error fetching hospital List" };
+    }
+  };
