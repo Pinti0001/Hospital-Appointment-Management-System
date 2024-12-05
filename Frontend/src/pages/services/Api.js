@@ -45,3 +45,14 @@ export const userLogin = async (userData) => {
     throw error.response?.data || { message: "Login failed" };
   }
 };
+
+
+export const getHospitalData = async(hospotalId)=>{
+  try {
+    const response = await axios.get(`${API_URL}hospialprof/hospitalpage/${hospotalId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching hospital data:", error.response?.data || error.message);
+    throw error.response?.data || { message: "Error fetching hospital data" };
+  }
+}
