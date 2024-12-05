@@ -19,6 +19,7 @@ import BookAppointment from "./pages/patient/BookAppointment"
 import HospitalNav from './components/navbar/HospitalNav';
 import UserNav from './components/navbar/UserNav';
 import HospitalProfile from './pages/hospital/HospitalProfile';
+import AppointmentList from './pages/hospital/AppointmentList';
 
 
 function App() {
@@ -53,7 +54,7 @@ function App() {
         <Route path="/patientdashboard" element={<PatientDashboard />} />
         <Route path="/bookappointment" element={<BookAppointment />} />
         <Route path="/hospitalpage" element={<HospitalProfile/>} />
-
+        <Route path="/schedule" element={<AppointmentList/>} />
 
       </Routes></>
 

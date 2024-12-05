@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { userLogin } from "../services/Api";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserInfo } from "../../slice/userInfo";
 
 const UserLogin = () => {
   const [formData, setFormData] = useState({ credential: "", password: "" });
   const [isEmail, setIsEmail] = useState(false);
   const navigate = useNavigate();
+    const userData = useSelector((state) => state.userInfo);
+    const dispatch = useDispatch();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -40,6 +44,15 @@ const UserLogin = () => {
       localStorage.setItem("token", response.token);
       if (response.email) localStorage.setItem("email", response.email);
       if (response.mobile) localStorage.setItem("mobile", response.mobile);
+
+      // Stroing the eamil number and objectId in redux
+      dispatch(
+        setUserInfo({
+          email: response.email,
+          number: response.mobile,
+          userObjectId: response.userObjectId,
+        })
+      );
 
       // Navigate to appointment booking page
       navigate("/patientdashboard");
