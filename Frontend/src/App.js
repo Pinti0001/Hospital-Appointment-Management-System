@@ -1,6 +1,11 @@
 import './App.css';
 
 import { Routes, Route, useLocation } from "react-router-dom"
+
+import { Routes, Route } from "react-router-dom"
+
+
+
 import Navbar from "./components/navbar/Navbar";
 
 import HospitalDashboard from './pages/hospital/HospitalDashboard';
@@ -34,8 +39,6 @@ function App() {
     };
   return (
     <>
-
-
       <Navbar />
       {/* <HospitalNav/> */}
       {/* <UserNav/> */}
@@ -52,7 +55,11 @@ function App() {
         <Route path="/patientdashboard" element={<PatientDashboard />} />
         <Route path="book-appointment" element ={<BookAppointment/>}/>
 
+<<<<<<< HEAD
         <Route path="/bookappointment" element={<BookAppointment />} />
+=======
+       
+>>>>>>> 19b50c5705c19acfad0aa24f354d382d03de6bd9
         <Route path="/hospitalpage" element={<HospitalProfile/>} />
 
 
