@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { FaUserPlus } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { userSignup } from "../services/Api"; // Assume this is the API for signup
+import { useDispatch, useSelector } from "react-redux";
+import { setUserInfo } from "../../slice/userInfo";
+
 
 const UserSignup = () => {
   const [formData, setFormData] = useState({
@@ -11,7 +14,8 @@ const UserSignup = () => {
     confirmPassword: "",
   });
   const navigate = useNavigate();
-
+  const userData = useSelector((state)=>state.userInfo)
+  const dispatch = useDispatch();
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -40,7 +44,13 @@ const UserSignup = () => {
       localStorage.setItem("token", response.token);
       {response.email&& localStorage.setItem("email", response.email);}
       if (response.mobile) localStorage.setItem("mobile", response.mobile);
-
+      dispatch(
+        setUserInfo({
+          email: response.email,
+          number: response.mobile,
+          userObjectId: response.userObjectId,
+        })
+      );
       alert("Signup successful!");
       navigate("/patientdashboard");
     } catch (error) {

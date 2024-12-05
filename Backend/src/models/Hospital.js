@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Doctor from './Doctor.js'
 
 const hospitalSchema = new mongoose.Schema({
   email: {
@@ -35,6 +36,16 @@ const hospitalSchema = new mongoose.Schema({
     required: true,
   },
 });
+
+hospitalSchema.virtual("doctors", {
+  ref: Doctor,
+  localField: "_id",
+  foreignField: "hospital",
+});
+
+hospitalSchema.set("toJSON", { virtuals: true });
+// hospitalSchema.set("toObject", { virtuals: true });
+
 
 const Hospital = mongoose.model("Hospital", hospitalSchema);
 export default Hospital;

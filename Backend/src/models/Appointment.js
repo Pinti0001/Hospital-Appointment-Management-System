@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 
 const appointmentSchema = new mongoose.Schema({
+  sentByUserId : {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User", // Reference to the Hospital schema
+    required: true,
+  },
   hospitalId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Hospital", // Reference to the Hospital schema
@@ -41,5 +46,5 @@ const appointmentSchema = new mongoose.Schema({
   },
 });
 
-const Appointment = mongoose.model("Appointment", appointmentSchema);
+const Appointment = mongoose.model("Appointments", appointmentSchema);
 export default Appointment;
