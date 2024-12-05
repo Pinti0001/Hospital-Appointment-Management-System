@@ -65,7 +65,10 @@ const HospitalLogin = () => {
           </div>
           <button
             type="submit"
+
             className="w-full bg-orange-500 text-white py-2 rounded-md hover:bg-orange-600"
+            
+
           >
             Login
           </button>

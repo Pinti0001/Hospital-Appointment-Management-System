@@ -170,8 +170,9 @@ const HospitalSignup = () => {
       });
       localStorage.setItem("token", response.token);
       localStorage.setItem("email", response.email);
+      localStorage.setItem("hospitalId", response._id)
         alert("Signup successful!");
-        navigate("/");
+        navigate("/hospitaldashboard");
       
     } catch (error) {
       alert(error.message || "Signup failed");
@@ -309,7 +310,7 @@ const HospitalSignup = () => {
           </button>
           <div className="flex justify-center">
             <p className="pr-2">Already have an account?</p>
-            <Link to="/hospitallogin" className="text-blue-500">
+            <Link to="/hospitallogin" className="text-blue-500" >
               Log In
             </Link>
           </div>
