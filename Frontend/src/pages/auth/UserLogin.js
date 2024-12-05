@@ -42,7 +42,7 @@ const UserLogin = () => {
       if (response.mobile) localStorage.setItem("mobile", response.mobile);
 
       // Navigate to appointment booking page
-      navigate("/bookappointment");
+      navigate("/patientdashboard");
     } catch (error) {
       alert(error.message || "Login failed");
     }
@@ -52,7 +52,7 @@ const UserLogin = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-6 rounded-lg shadow-md w-96">
         <div className="text-center mb-6">
-          <FaUserCircle size={50} className="text-purple-500 mx-auto" />
+          <FaUserCircle size={50} className="text-orange-500 mx-auto" />
           <h2 className="text-2xl font-bold text-gray-800">User Login</h2>
         </div>
         <form onSubmit={handleSubmit}>
@@ -67,7 +67,7 @@ const UserLogin = () => {
               onChange={handleInputChange}
               required
               placeholder="Enter email or mobile"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
           <div className="mb-4">
@@ -78,12 +78,12 @@ const UserLogin = () => {
               value={formData.password}
               onChange={handleInputChange}
               required
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-purple-500 text-white py-2 rounded-md hover:bg-purple-600"
+            className="w-full bg-orange-500 text-white py-2 rounded-md hover:bg-orange-600"
           >
             Login
           </button>

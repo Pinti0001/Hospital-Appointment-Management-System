@@ -1,20 +1,17 @@
 import './App.css';
 import { Routes, Route } from "react-router-dom"
-import Navbar from "./components/navbar/Navbar";
 import HospitalDashboard from './pages/hospital/HospitalDashboard';
-import BookAppointment from './pages/patient/BookAppointment';
 import Home from './pages/home/Home';
 import UserLogin from './pages/auth/UserLogin';
 import HospitalSignup from './pages/auth/HospitalSignUp';
 import HospitalLogin from './pages/auth/HospitalLogin';
 import UserSignup from './pages/auth/UserSignUp';
-import HospitalNav from './components/navbar/HospitalNav';
+import PatientDashboard from './pages/patient/PatientDashboard';
+import BookAppointment from "./pages/patient/BookAppointment"
 
 function App() {
   return (
     <>
-      {/* <Navbar /> */}
-      <HospitalNav/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/usersignup" element={<UserSignup />} />
@@ -22,7 +19,8 @@ function App() {
         <Route path="/hospitalsignup" element={<HospitalSignup />} />
         <Route path="/hospitallogin" element={<HospitalLogin />} />
         <Route path="/hospitaldashboard" element={<HospitalDashboard />} />
-        <Route path="/bookappointment" element={<BookAppointment />} />
+        <Route path="/patientdashboard" element={<PatientDashboard />} />
+        <Route path="book-appointment" element ={<BookAppointment/>}/>
 
       </Routes></>
 
