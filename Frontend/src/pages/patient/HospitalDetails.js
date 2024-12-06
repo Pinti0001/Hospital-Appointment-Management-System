@@ -12,7 +12,6 @@ const HospitalDetails = () => {
 
   return (
     <div className="flex">
-     
       <div className="fixed w-64 h-full">
         <UserNav />
       </div>
@@ -36,7 +35,9 @@ const HospitalDetails = () => {
               <h3 className="text-xl font-bold text-gray-800">{doctor.name}</h3>
               <p className="text-orange-500">{doctor.specialization}</p>
               <div>
-                <h4 className="font-semibold text-gray-800">Available Slots:</h4>
+                <h4 className="font-semibold text-gray-800">
+                  Available Slots:
+                </h4>
                 <ul className="list-disc pl-5 text-gray-600">
                   {doctor.availableSlots.map((slot) => (
                     <li key={slot._id}>
@@ -45,9 +46,11 @@ const HospitalDetails = () => {
                   ))}
                 </ul>
               </div>
-            <Link to ="/bookappointment">  <button className="mt-auto bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 transition-colors">
-                Book Appointment
-              </button></Link>
+              <Link to={`/bookappointment/${hospital._id}/${doctor._id}`}>
+                <button className="mt-auto bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 transition-colors">
+                  Book Appointment
+                </button>
+              </Link>
             </div>
           ))}
         </div>

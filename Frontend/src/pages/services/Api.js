@@ -80,7 +80,7 @@ export const fetchAppointments = async (uniqueId) => {
 
 export const bookAppointment = async (appointmentData) => {
   try {
-    const response = await axios.post(`${API_URL}/appointments/createappointment`, appointmentData);
+    const response = await axios.post(`${API_URL}appointments/createappointment`, appointmentData);
     return response.data;
   } catch (error) {
     console.error("Error booking appointment:", error);
