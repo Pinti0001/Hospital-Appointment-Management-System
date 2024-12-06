@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FcHome, FcCalendar, FcReading, FcSms,  FcManager } from "react-icons/fc";
 import { FaHospitalUser } from "react-icons/fa";
+import HosLogo from "../../assets/HosLogo.jpeg"
 
 
 const HospitalNav = () => {
@@ -22,7 +23,7 @@ const HospitalNav = () => {
                 {!isCollapsed && (
                     <div className="flex-shrink-0 mb-10">
                         <Link to="/hospitaldashboard">
-                            <img src="/logo.png" alt="Logo" className="h-10" />
+                            <img src={HosLogo} alt="Logo" className="h-10" />
                         </Link>
                     </div>
                 )}

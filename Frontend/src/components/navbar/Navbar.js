@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import HosLogo from "../../assets/HosLogo.jpeg"
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -12,7 +12,7 @@ const Navbar = () => {
       <div className="max-w-auto mx-5 flex items-center justify-between">
         <div className="flex-shrink-0">
           <Link to="/">
-            <img src="/logo.png" alt="Logo" className="h-10" />
+            <img src={HosLogo} alt="Logo" className="h-10" />
           </Link>
         </div>
 

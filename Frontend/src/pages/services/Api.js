@@ -77,3 +77,13 @@ export const fetchAppointments = async (uniqueId) => {
     throw error.response?.data || { message: "Error fetching hospital List" };
   }
 }
+
+export const bookAppointment = async (appointmentData) => {
+  try {
+    const response = await axios.post(`${API_URL}/appointments/createappointment`, appointmentData);
+    return response.data;
+  } catch (error) {
+    console.error("Error booking appointment:", error);
+    throw error;
+  }
+};

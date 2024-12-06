@@ -12,7 +12,7 @@ import UserLogin from './pages/auth/UserLogin';
 import HospitalSignup from './pages/auth/HospitalSignUp';
 import HospitalLogin from './pages/auth/HospitalLogin';
 import UserSignup from './pages/auth/UserSignUp';
-
+import HospitalDetails from './pages/patient/HospitalDetails';
 import PatientDashboard from './pages/patient/PatientDashboard';
 import BookAppointment from "./pages/patient/BookAppointment"
 
@@ -55,6 +55,7 @@ function App() {
         <Route path="/bookappointment" element={<BookAppointment />} />
         <Route path="/hospitalpage" element={<HospitalProfile/>} />
         <Route path="/schedule" element={<AppointmentList/>} />
+        <Route path="/hospital/:id" element={<HospitalDetails />} />
 
       </Routes></>
 
