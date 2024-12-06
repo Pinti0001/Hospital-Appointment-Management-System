@@ -2,11 +2,16 @@ import React, { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { userLogin } from "../services/Api";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserInfo } from "../../slice/userInfo";
 
 const UserLogin = () => {
   const [formData, setFormData] = useState({ credential: "", password: "" });
   const [isEmail, setIsEmail] = useState(false);
   const navigate = useNavigate();
+  const userData = useSelector((state) => state.userInfo);
+  console.log(userData);
+  const dispatch = useDispatch();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -41,8 +46,17 @@ const UserLogin = () => {
       if (response.email) localStorage.setItem("email", response.email);
       if (response.mobile) localStorage.setItem("mobile", response.mobile);
 
+      // Stroing the eamil number and objectId in redux
+      dispatch(
+        setUserInfo({
+          email: response.email,
+          number: response.mobile,
+          userObjectId: response.userObjectId,
+        })
+      );
+
       // Navigate to appointment booking page
-      navigate("/bookappointment");
+      navigate("/patientdashboard");
     } catch (error) {
       alert(error.message || "Login failed");
     }
@@ -52,7 +66,7 @@ const UserLogin = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-6 rounded-lg shadow-md w-96">
         <div className="text-center mb-6">
-          <FaUserCircle size={50} className="text-purple-500 mx-auto" />
+          <FaUserCircle size={50} className="text-orange-500 mx-auto" />
           <h2 className="text-2xl font-bold text-gray-800">User Login</h2>
         </div>
         <form onSubmit={handleSubmit}>
@@ -67,7 +81,7 @@ const UserLogin = () => {
               onChange={handleInputChange}
               required
               placeholder="Enter email or mobile"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
           <div className="mb-4">
@@ -78,12 +92,12 @@ const UserLogin = () => {
               value={formData.password}
               onChange={handleInputChange}
               required
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-purple-500 text-white py-2 rounded-md hover:bg-purple-600"
+            className="w-full bg-orange-500 text-white py-2 rounded-md hover:bg-orange-600"
           >
             Login
           </button>

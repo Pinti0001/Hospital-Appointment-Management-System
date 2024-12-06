@@ -1,6 +1,13 @@
 import mongoose from "mongoose";
+import Doctor from "./Doctor.js"; // Warning only remove this import when the Doctor model is being used in a router that is mounted on the server.js ____ For more details contact :- Arihant
+
 
 const appointmentSchema = new mongoose.Schema({
+  userId : {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User", // Reference to the Hospital schema
+    required: true,
+  },
   hospitalId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Hospital", // Reference to the Hospital schema
@@ -8,7 +15,7 @@ const appointmentSchema = new mongoose.Schema({
   },
   doctorId: { 
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Doctor",
+    ref: 'Doctor',
     required : true,
 },
   patientName: {

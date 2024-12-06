@@ -1,94 +1,93 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import { FcHome, FcCalendar, FcReading, FcSms, FcSettings, FcManager } from "react-icons/fc";
+import HosLogo from "../../assets/HosLogo.jpeg"
 const UserNav = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isCollapsed, setIsCollapsed] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
 
-    const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+    const toggleSidebar = () => {
+        setIsCollapsed(!isCollapsed);
+    };
 
     return (
-        <nav className="bg-gray-800 p-4 fixed w-full z-50">
-            <div className="max-w-auto mx-5 flex items-center justify-between">
-                <div className="flex-shrink-0">
-                    <Link to="/">
-                        <img src="/logo.png" alt="Logo" className="h-10" />
-                    </Link>
-                </div>
-
-                {/* Desktop Menu */}
-                <div className="hidden sm:flex space-x-8">
-                    <Link to="/" className="text-white hover:text-orange-400">Home</Link>
-                    <Link to="/hospital" className="text-white hover:text-orange-400">Hospital</Link>
-                    <Link to="/service" className="text-white hover:text-orange-400">Service</Link>
-                    <Link to="/notification" className="text-white hover:text-orange-400">Notifications</Link>
-                </div>
-
-                {/* Desktop Login/Signup Button */}
-                <div className="hidden sm:block relative">
-                    <button
-                        onClick={() => setShowDropdown(!showDropdown)}
-                        className="text-white px-4 py-2 rounded-md bg-orange-500 hover:bg-orange-600"
-                    >
-                        Login / Sign Up
-                    </button>
-                    {showDropdown && (
-                        <div className="dropdown absolute right-0 mt-2 w-48 bg-white text-black shadow-lg rounded-md">
-                            <Link to="/hospitallogin" className="block px-4 py-2 hover:bg-gray-200">Hospital Login</Link>
-                            <Link to="/userlogin" className="block px-4 py-2 hover:bg-gray-200">User Login</Link>
-                        </div>
-                    )}
-                </div>
-
-                {/* Hamburger Button */}
-                <div className="sm:hidden flex items-center">
-                    <button
-                        onClick={toggleMenu}
-                        className="text-white focus:outline-none"
-                    >
-                        <svg
-                            className="w-6 h-6"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M4 6h16M4 12h16M4 18h16"
-                            />
-                        </svg>
-                    </button>
-                </div>
+        <div
+            className={`${isCollapsed ? 'w-16' : 'w-64'
+                } bg-gray-800 text-white h-screen fixed flex flex-col transition-width duration-300`}
+        >
+            {/* Toggle and Logo Section */}
+            <div className="flex items-center space-x-32 p-3">
+                {!isCollapsed && (
+                    <div className="flex-shrink-0 mb-10">
+                        <Link to="/hospitaldashboard">
+                            <img src={HosLogo} alt="Logo" className="h-10" />
+                        </Link>
+                    </div>
+                )}
+                <button
+                    onClick={toggleSidebar}
+                    className="hover:bg-gray-700 text-4xl focus:outline-none p-2 pb-4 rounded"
+                >
+                    ☰
+                </button>
             </div>
 
-            {/* Mobile Menu */}
-            <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'} bg-gray-800 p-4`}>
-                <Link to="/" className="block text-white py-2 hover:text-orange-400">Home</Link>
-                <Link to="/hospital" className="block text-white py-2 hover:text-orange-400">Hospital</Link>
-                <Link to="/service" className="block text-white py-2 hover:text-orange-400">Service</Link>
-                <Link to="/notification" className="block text-white py-2 hover:text-orange-400">Notifications</Link>
+            {/* Sidebar Menu Links */}
+            <div className="flex flex-col mt-4 space-y-4">
+                <NavItem
+                    icon={<FcSms className="w-6 h-6" />}
+                    text="Messages"
+                    link="/messages"
+                    isCollapsed={isCollapsed}
+                />
+                <NavItem
+                    icon={<FcSettings className="w-6 h-6" />}
+                    text="Hospital List"
+                    link="/hospital-list"
+                    isCollapsed={isCollapsed}
+                />
+                <NavItem
+                    icon={<FcManager className="w-6 h-6" />}
+                    text="Profile"
+                    link="/profile"
+                    isCollapsed={isCollapsed}
+                />
+            </div>
 
-                {/* Login / Sign Up Button for Mobile */}
+            {/* Profile/Logout Section */}
+            <div className={`  ${isCollapsed ? 'px-0' : 'px-4'} ${showDropdown && !isCollapsed ? 'mb-32' : ''} mt-auto mb-10 `} >
                 <div className="relative">
                     <button
                         onClick={() => setShowDropdown(!showDropdown)}
                         className="block text-white py-2 px-4 rounded-md bg-orange-500 hover:bg-orange-600 w-full"
                     >
-                        Login / Sign Up
+                        {isCollapsed ? <FcManager className="w-6 h-6 mx-auto" /> : "Profile"}
                     </button>
-                    {showDropdown && (
-                        <div className="dropdown mt-2 w-full bg-white text-black shadow-lg rounded-md">
-                            <Link to="/hospitallogin" className="block px-4 py-2 hover:bg-gray-200">Hospital Login</Link>
-                            <Link to="/userlogin" className="block px-4 py-2 hover:bg-gray-200">User Login</Link>
+                    {!isCollapsed && showDropdown && (
+                        <div className="absolute mt-2 w-full bg-white text-black shadow-lg rounded-md">
+                            <Link to="/profile" className="block px-4 py-2 hover:bg-gray-200">
+                                Profile
+                            </Link>
+                            <Link to="/logout" className="block px-4 py-2 hover:bg-gray-200">
+                                Logout
+                            </Link>
                         </div>
                     )}
                 </div>
             </div>
-        </nav>
+        </div>
     );
 };
+
+const NavItem = ({ icon, text, link, isCollapsed }) => (
+    <Link
+        to={link}
+        className={`flex items-center px-4 py-3 hover:bg-gray-700 ${isCollapsed ? 'justify-center' : ''
+            }`}
+    >
+        {icon}
+        {!isCollapsed && <span className="ml-3">{text}</span>}
+    </Link>
+);
 
 export default UserNav;

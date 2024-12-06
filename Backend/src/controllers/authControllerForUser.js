@@ -42,7 +42,9 @@ export const signupUser = async (req, res) => {
     res.status(201).json({
       message: "User registered successfully",
       token,
-      email:email
+      email:email,
+      mobile : mobile,
+      userObjectId : user._id
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -86,6 +88,8 @@ export const loginUser = async (req, res) => {
       message: "Login successful",
       token,
       email: user.email,
+      number: user.mobile,
+      userObjectId: user._id,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 import { FaUserPlus } from "react-icons/fa";
 import { Link,  useNavigate  } from "react-router-dom";
 import { hospitalSignup } from "../services/Api"; // Assume this is the API for signup
+import { useDispatch, useSelector } from "react-redux";
+import { setHospitalInfo } from "../../slice/hospitalInfo";
 
 const HospitalSignup = () => {
+  const hospitalData = useSelector((state) => state.hospitalInfo);
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     mobile: "",
     password: "",
@@ -168,10 +172,23 @@ const HospitalSignup = () => {
         ...formData,
         userType: "hospital", // Set userType to hospital explicitly
       });
+      dispatch(
+        setHospitalInfo({
+          hospitalName: response.hospitalName,
+          email: response.email,
+          number: response.mobile,
+          address: response.hospitalAddress,
+          state: response.state,
+          district: response.district,
+          city_pinCode: response.city,
+          hospitalObjectId: response._id,
+        })
+      );
       localStorage.setItem("token", response.token);
       localStorage.setItem("email", response.email);
+      localStorage.setItem("hospitalId", response._id)
         alert("Signup successful!");
-        navigate("/");
+        navigate("/hospitaldashboard");
       
     } catch (error) {
       alert(error.message || "Signup failed");
@@ -182,7 +199,7 @@ const HospitalSignup = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-6 rounded-lg shadow-md w-96 w-[700px] mt-20">
         <div className="text-center mb-6">
-          <FaUserPlus size={50} className="text-purple-500 mx-auto" />
+          <FaUserPlus size={50} className="text-orange-500 mx-auto" />
           <h2 className="text-2xl font-bold text-gray-800">Hospital Signup</h2>
         </div>
         <form onSubmit={handleSubmit}>
@@ -194,7 +211,7 @@ const HospitalSignup = () => {
               value={formData.mobile}
               onChange={handleInputChange}
               required
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
           <div className="mb-4">
@@ -205,7 +222,7 @@ const HospitalSignup = () => {
               value={formData.password}
               onChange={handleInputChange}
               required
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
           <div className="mb-4">
@@ -216,7 +233,7 @@ const HospitalSignup = () => {
               value={formData.confirmPassword}
               onChange={handleInputChange}
               required
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
           <div className="mb-4">
@@ -227,7 +244,7 @@ const HospitalSignup = () => {
               value={formData.email}
               onChange={handleInputChange}
               required
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
           <div className="flex gap-4 mb-4">
@@ -239,7 +256,7 @@ const HospitalSignup = () => {
                 value={formData.hospitalName}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
             </div>
             <div className="w-full">
@@ -250,7 +267,7 @@ const HospitalSignup = () => {
                 value={formData.hospitalAddress}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
             </div>
           </div>
@@ -262,7 +279,7 @@ const HospitalSignup = () => {
                 value={formData.state}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
               >
                 <option value="">Select State</option>
                 {states.map((state) => (
@@ -279,7 +296,7 @@ const HospitalSignup = () => {
                 value={formData.district}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
               >
                 <option value="">Select District</option>
                 {districts.map((district, index) => (
@@ -298,18 +315,18 @@ const HospitalSignup = () => {
               value={formData.city}
               onChange={handleInputChange}
               required
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-purple-500 text-white py-2 rounded-md hover:bg-purple-600"
+            className="w-full bg-orange-500 text-white py-2 rounded-md hover:bg-orange-600"
           >
             Signup
           </button>
           <div className="flex justify-center">
             <p className="pr-2">Already have an account?</p>
-            <Link to="/hospitallogin" className="text-blue-500">
+            <Link to="/hospitallogin" className="text-blue-500" >
               Log In
             </Link>
           </div>

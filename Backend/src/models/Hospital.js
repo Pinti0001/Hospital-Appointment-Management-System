@@ -36,5 +36,15 @@ const hospitalSchema = new mongoose.Schema({
   },
 });
 
+hospitalSchema.virtual("doctors", {
+  ref: "Doctor",
+  localField: "_id",
+  foreignField: "hospital",
+});
+
+hospitalSchema.set("toJSON", { virtuals: true });
+// hospitalSchema.set("toObject", { virtuals: true });
+
+
 const Hospital = mongoose.model("Hospital", hospitalSchema);
 export default Hospital;
