@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaHospital } from "react-icons/fa";
 import UserNav from "../../components/navbar/UserNav";
 import { fetchHospitals } from "../services/Api"; // Importing the fetchHospitals function
+import { Link } from "react-router-dom";
 
 const HospitalList = () => {
   const [hospitals, setHospitals] = useState([]);
@@ -42,7 +43,9 @@ const HospitalList = () => {
           />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {filteredHospitals.map((hospital) => (
-              <div
+              <Link
+                to={`/hospital/${hospital._id}`}
+                state={{ hospital }}
                 key={hospital._id}
                 className="bg-white shadow-md rounded-lg p-5 flex items-center gap-4"
               >
@@ -57,7 +60,7 @@ const HospitalList = () => {
                   </p>
                   <p className="text-sm text-gray-500">📞 {hospital.mobile}</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

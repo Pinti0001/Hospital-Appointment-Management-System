@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FcCalendar, FcSms } from "react-icons/fc";
 import UserNav from "../../components/navbar/UserNav";
+import { bookAppointment } from "../services/Api";
 
 export default function BookAppointment() {
   const [formData, setFormData] = useState({
@@ -16,18 +17,35 @@ export default function BookAppointment() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Appointment Data:", formData);
-    // Send data to backend (e.g., via API call)
+    try {
+      const response = await bookAppointment(formData);
+      console.log("Appointment booked successfully:", response);
+      alert("Appointment booked successfully!");
+      // Optionally, clear the form or redirect to another page
+      setFormData({
+        patientName: "",
+        patientEmail: "",
+        patientPhone: "",
+        date: "",
+        symptoms: "",
+      });
+    } catch (error) {
+      console.error("Failed to book appointment:", error);
+      alert("Failed to book appointment. Please try again.");
+    }
   };
 
   return (
-    <div className="">
-   <div className="w-1/4">
-   <UserNav/>
-   </div>
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="flex">
+    {/* Sidebar */}
+    <div className="fixed w-64 h-full">
+      <UserNav />
+    </div>
+  
+    {/* Form Content */}
+    <div className="ml-64 flex-1 min-h-screen flex items-center justify-center bg-gray-50">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-lg">
         <h1 className="text-2xl font-bold text-orange-500 flex items-center space-x-2">
           <FcCalendar className="w-8 h-8" />
@@ -47,7 +65,7 @@ export default function BookAppointment() {
               placeholder="Enter your full name"
             />
           </div>
-
+  
           {/* Email */}
           <div>
             <label className="block text-sm font-medium text-gray-700">Email Address</label>
@@ -60,7 +78,7 @@ export default function BookAppointment() {
               placeholder="Enter your email (optional)"
             />
           </div>
-
+  
           {/* Phone Number */}
           <div>
             <label className="block text-sm font-medium text-gray-700">Phone Number</label>
@@ -74,7 +92,7 @@ export default function BookAppointment() {
               placeholder="Enter your phone number"
             />
           </div>
-
+  
           {/* Appointment Date */}
           <div>
             <label className="block text-sm font-medium text-gray-700">Appointment Date</label>
@@ -87,7 +105,7 @@ export default function BookAppointment() {
               className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500"
             />
           </div>
-
+  
           {/* Symptoms */}
           <div>
             <label className="block text-sm font-medium text-gray-700">Symptoms</label>
@@ -99,7 +117,7 @@ export default function BookAppointment() {
               placeholder="Describe your symptoms (optional)"
             ></textarea>
           </div>
-
+  
           {/* Submit Button */}
           <button
             type="submit"
@@ -110,6 +128,7 @@ export default function BookAppointment() {
         </form>
       </div>
     </div>
-    </div>
+  </div>
+  
   );
 }
