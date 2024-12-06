@@ -7,8 +7,7 @@ import { bookAppointment } from "../services/Api";
 
 export default function BookAppointment() {
   const { hospitalId, doctorId } = useParams(); 
-  const userId = useSelector((state) => state.userInfo.userObjectId); 
-
+  const { userObjectId } = useSelector((state) => state.userInfo); 
   const [formData, setFormData] = useState({
     patientName: "",
     patientEmail: "",
@@ -27,14 +26,13 @@ export default function BookAppointment() {
 
     const payload = {
       ...formData,
-      userId,
+      userId : userObjectId,
       hospitalId,
       doctorId,
     };
 
     try {
       const response = await bookAppointment(payload);
-      console.log("Appointment booked successfully:", response);
       alert("Appointment booked successfully!");
 
 
