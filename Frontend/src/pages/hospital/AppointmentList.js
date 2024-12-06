@@ -10,7 +10,7 @@ export default function AppointmentList({ hospitalId }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchAppointments(hospitalId);
+        const data = await fetchAppointments("67513dcad5862c772b7e46c1");
         setAppointments(data);
         setLoading(false);
       } catch (err) {

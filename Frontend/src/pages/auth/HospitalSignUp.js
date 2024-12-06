@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 import { FaUserPlus } from "react-icons/fa";
 import { Link,  useNavigate  } from "react-router-dom";
 import { hospitalSignup } from "../services/Api"; // Assume this is the API for signup
+import { useDispatch, useSelector } from "react-redux";
+import { setHospitalInfo } from "../../slice/hospitalInfo";
 
 const HospitalSignup = () => {
+  const hospitalData = useSelector((state) => state.hospitalInfo);
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     mobile: "",
     password: "",
@@ -168,6 +172,18 @@ const HospitalSignup = () => {
         ...formData,
         userType: "hospital", // Set userType to hospital explicitly
       });
+      dispatch(
+        setHospitalInfo({
+          hospitalName: response.hospitalName,
+          email: response.email,
+          number: response.mobile,
+          address: response.hospitalAddress,
+          state: response.state,
+          district: response.district,
+          city_pinCode: response.city,
+          hospitalObjectId: response._id,
+        })
+      );
       localStorage.setItem("token", response.token);
       localStorage.setItem("email", response.email);
       localStorage.setItem("hospitalId", response._id)

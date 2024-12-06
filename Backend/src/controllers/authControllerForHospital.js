@@ -29,6 +29,14 @@ export const signupHospital = async (req, res) => {
     res.status(201).json({
       message: "Hospital registered successfully",
       token,
+      email: hospital.email,
+      hospitalAddress: hospital.hospitalAddress,
+      hospitalName: hospital.hospitalName,
+      mobile: hospital.mobile,
+      state: hospital.state,
+      district: hospital.district,
+      city: hospital.city,
+      _id: hospital._id
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -51,6 +59,14 @@ export const loginHospital = async (req, res) => {
     res.status(200).json({
       message: "Login successful",
       token,
+      email: hospital.email,
+      hospitalAddress: hospital.hospitalAddress,
+      hospitalName: hospital.hospitalName,
+      mobile: hospital.mobile,
+      state: hospital.state,
+      district: hospital.district,
+      city: hospital.city,
+      _id: hospital._id,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

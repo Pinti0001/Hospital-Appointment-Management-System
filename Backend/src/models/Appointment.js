@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
+import Doctor from "./Doctor.js"; // Warning only remove this import when the Doctor model is being used in a router that is mounted on the server.js ____ For more details contact :- Arihant
+
 
 const appointmentSchema = new mongoose.Schema({
-  sentByUserId : {
+  userId : {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User", // Reference to the Hospital schema
     required: true,
@@ -13,7 +15,7 @@ const appointmentSchema = new mongoose.Schema({
   },
   doctorId: { 
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Doctor",
+    ref: 'Doctor',
     required : true,
 },
   patientName: {
@@ -46,5 +48,5 @@ const appointmentSchema = new mongoose.Schema({
   },
 });
 
-const Appointment = mongoose.model("Appointments", appointmentSchema);
+const Appointment = mongoose.model("Appointment", appointmentSchema);
 export default Appointment;

@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import Doctor from './Doctor.js'
 
 const hospitalSchema = new mongoose.Schema({
   email: {
@@ -38,7 +37,7 @@ const hospitalSchema = new mongoose.Schema({
 });
 
 hospitalSchema.virtual("doctors", {
-  ref: Doctor,
+  ref: "Doctor",
   localField: "_id",
   foreignField: "hospital",
 });
