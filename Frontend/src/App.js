@@ -1,8 +1,8 @@
 import './App.css';
 
-import { Routes, Route, useLocation } from "react-router-dom"
+import { Routes, Route } from "react-router-dom"
 import HospitalList from './pages/patient/HospitalList';
-
+import { useSelector } from 'react-redux';
 
 import Navbar from "./components/navbar/Navbar";
 
@@ -24,24 +24,31 @@ import AppointmentList from './pages/hospital/AppointmentList';
 
 function App() {
 
-  const location = useLocation();
+    // found Redux state
+  const hospitalObjectId = useSelector(
+    (state) => state.hospitalInfo.hospitalObjectId
+  );
+  const userObjectId = useSelector(
+    (state) => state.userInfo.userObjectId
+  );
+  // using state
+  
 
-    const renderNavBar = () => {
-        if (location.pathname === '/') {
-            return <Navbar />;
-        } else if (location.pathname.startsWith('/hospitaldashboard')) {
-            return <HospitalNav />;
-        } else if (location.pathname.startsWith('/userdashboard')) {
-            return <UserNav />;
-        }
-        return null; 
-    };
+  const renderNavBar = () => {
+    if (hospitalObjectId) {
+      return <HospitalNav />;
+    } else if (userObjectId) {
+      return <UserNav />;
+    } else {
+      return <Navbar />;
+    }
+  };
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       {/* <HospitalNav/> */}
       {/* <UserNav/> */}
-      {/* {renderNavBar()} */}
+      {renderNavBar()}
 
       <Routes>
         <Route path="/" element={<Home />} />
