@@ -3,7 +3,7 @@ import './App.css';
 import { Routes, Route } from "react-router-dom"
 import HospitalList from './pages/patient/HospitalList';
 import { useSelector } from 'react-redux';
-
+import { useState, useEffect } from "react";
 import Navbar from "./components/navbar/Navbar";
 
 import HospitalDashboard from './pages/hospital/HospitalDashboard';
@@ -24,15 +24,22 @@ import AppointmentList from './pages/hospital/AppointmentList';
 
 function App() {
 
-    // found Redux state
-  const hospitalObjectId = useSelector(
+  // found Redux state
+  const hospitalIdFromStore = useSelector(
     (state) => state.hospitalInfo.hospitalObjectId
   );
-  const userObjectId = useSelector(
+  const userIdFromStore = useSelector(
     (state) => state.userInfo.userObjectId
   );
-  // using state
-  
+
+  const [hospitalObjectId, setHospitalObjectId] = useState(null);
+  const [userObjectId, setUserObjectId] = useState(null);
+
+  useEffect(() => {
+    setHospitalObjectId(hospitalIdFromStore);
+    setUserObjectId(userIdFromStore);
+  }, [hospitalIdFromStore, userIdFromStore]);
+
 
   const renderNavBar = () => {
     if (hospitalObjectId) {
@@ -57,11 +64,11 @@ function App() {
         <Route path="/hospitalsignup" element={<HospitalSignup />} />
         <Route path="/hospitallogin" element={<HospitalLogin />} />
         <Route path="/hospitaldashboard" element={<HospitalDashboard />} />
-        <Route  path ="/hospital-list" element ={<HospitalList/>}/>
+        <Route path="/hospital-list" element={<HospitalList />} />
         <Route path="/patientdashboard" element={<PatientDashboard />} />
         <Route path="/bookappointment/:hospitalId/:doctorId" element={<BookAppointment />} />
-        <Route path="/hospitalpage" element={<HospitalProfile/>} />
-        <Route path="/schedule" element={<AppointmentList/>} />
+        <Route path="/hospitalpage" element={<HospitalProfile />} />
+        <Route path="/schedule" element={<AppointmentList />} />
         <Route path="/hospital/:id" element={<HospitalDetails />} />
 
       </Routes></>
