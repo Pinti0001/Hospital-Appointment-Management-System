@@ -46,10 +46,10 @@ export const userLogin = async (userData) => {
   }
 };
 
-
-export const getHospitalData = async(hospotalId)=>{
+// Fetch a Single Hospital's Data
+export const getHospitalData = async (hospitalId) => {
   try {
-    const response = await axios.get(`${API_URL}hospialprof/hospitalpage/${hospotalId}`);
+    const response = await axios.get(`${API_URL}hospitalprof/hospitalpage/${hospitalId}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching hospital data:", error.response?.data || error.message);
@@ -57,15 +57,15 @@ export const getHospitalData = async(hospotalId)=>{
   }
 }
 
-
- export  const fetchHospitals = async () => {
-    try {
-      const response = await axios.get(`${API_URL}user/getallhospital`); // Update with your backend endpoint
-      return(response.data);
-    } catch (error) {
-      throw error.response?.data || { message: "Error fetching hospital List" };
-    }
-  };
+// Fetch All Hospitals
+export const fetchHospitals = async () => {
+  try {
+    const response = await axios.get(`${API_URL}user/getallhospital`);
+    return (response.data);
+  } catch (error) {
+    throw error.response?.data || { message: "Error fetching hospital List" };
+  }
+};
 
 export const fetchAppointments = async (uniqueId) => {
   try {

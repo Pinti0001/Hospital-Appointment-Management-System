@@ -4,6 +4,6 @@ import { getHospitalData } from '../controllers/hospitalController.js';
 
 const router = express.Router();
 
-router.get('/hospital/:hospotalId', getHospitalData);
+router.get('/hospitalpage/:hospitalId', getHospitalData);
 
 export default router;
