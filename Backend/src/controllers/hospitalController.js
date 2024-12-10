@@ -2,8 +2,9 @@ import Hospital from "../models/Hospital.js";
 
 export const getHospitalData = async(req, res) =>{
     try {
-        const {hospotalId} = req.params;
-        const hospitalData = await Hospital.findById(hospotalId);
+        const {hospitalId} = req.params;
+        console.log("Received ID:", hospitalId);
+        const hospitalData = await Hospital.findById(hospitalId);
 
         if(!hospitalData){
             return res.status(404).send({
@@ -12,12 +13,14 @@ export const getHospitalData = async(req, res) =>{
             })
         }
         return res.status(200).send({
-            data: hospitalData
+            data: hospitalData,
+            message: "Hospital data retrieved successfully."
         })
     } catch (error) {
+        console.error("Error fetching hospital data:", error);
         return res.status(500).send({
-            message: 'Error fetching hospital data',
-            message: error.message
+            message : 'Error fetching hospital data',
+            details : error.message
         })
     }
 }
