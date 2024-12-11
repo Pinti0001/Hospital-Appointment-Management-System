@@ -87,3 +87,15 @@ export const bookAppointment = async (appointmentData) => {
     throw error;
   }
 };
+
+
+export const fetchUserAppointments = async (userId) => {
+  try {
+    const response = await axios.get(`${API_URL}appointments/getuserappointment?userId=${userId}`);
+    return response.data;
+  } catch (err) {
+    console.log("Failed to fetch appointments. Please try again later.");
+    throw err
+  }
+ 
+};

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux"; 
 import { useParams } from "react-router-dom"; 
 import { FcCalendar } from "react-icons/fc";
-import UserNav from "../../components/navbar/UserNav";
 import { bookAppointment } from "../services/Api"; 
 
 export default function BookAppointment() {
@@ -50,12 +49,6 @@ export default function BookAppointment() {
   };
 
   return (
-    <div className="flex">
-
-      <div className="fixed w-64 h-full">
-        <UserNav />
-      </div>
-
       <div className="ml-64 flex-1 min-h-screen flex items-center justify-center bg-gray-50">
         <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-lg">
           <h1 className="text-2xl font-bold text-orange-500 flex items-center space-x-2">
@@ -139,6 +132,5 @@ export default function BookAppointment() {
           </form>
         </div>
       </div>
-    </div>
   );
 }

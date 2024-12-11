@@ -20,6 +20,8 @@ import HospitalNav from './components/navbar/HospitalNav';
 import UserNav from './components/navbar/UserNav';
 import HospitalProfile from './pages/hospital/HospitalProfile';
 import AppointmentList from './pages/hospital/AppointmentList';
+import Messages from './pages/patient/Messages';
+import PatientProfile from './pages/patient/PatientProfile';
 
 
 function App() {
@@ -70,7 +72,9 @@ function App() {
         <Route path="/hospitalpage" element={<HospitalProfile />} />
         <Route path="/schedule" element={<AppointmentList />} />
         <Route path="/hospital/:id" element={<HospitalDetails />} />
-
+        <Route path="/messages" element={<Messages />} />
+        <Route path="/profile" element={<PatientProfile />} />
+      
       </Routes></>
 
   );
