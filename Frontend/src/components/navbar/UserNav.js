@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FcHome, FcCalendar, FcReading, FcSms, FcSettings, FcManager } from "react-icons/fc";
+import { FcHome, FcCalendar, FcReading, FcSms, FcManager } from "react-icons/fc";
 import HosLogo from "../../assets/HosLogo.jpeg"
 const UserNav = () => {
     const [isCollapsed, setIsCollapsed] = useState(false);
@@ -19,7 +19,7 @@ const UserNav = () => {
             <div className="flex items-center space-x-32 p-3">
                 {!isCollapsed && (
                     <div className="flex-shrink-0 mb-10">
-                        <Link to="/hospitaldashboard">
+                        <Link to="/patientdashboard">
                             <img src={HosLogo} alt="Logo" className="h-10" />
                         </Link>
                     </div>
@@ -34,6 +34,12 @@ const UserNav = () => {
 
             {/* Sidebar Menu Links */}
             <div className="flex flex-col mt-4 space-y-4">
+            <NavItem
+                    icon={<FcHome className="w-6 h-6" />}
+                    text="Home"
+                    link="/patientdashboard"
+                    isCollapsed={isCollapsed}
+                />
                 <NavItem
                     icon={<FcSms className="w-6 h-6" />}
                     text="Messages"
@@ -41,7 +47,7 @@ const UserNav = () => {
                     isCollapsed={isCollapsed}
                 />
                 <NavItem
-                    icon={<FcSettings className="w-6 h-6" />}
+                    icon={<FcReading className="w-6 h-6" />}
                     text="Hospital List"
                     link="/hospital-list"
                     isCollapsed={isCollapsed}

@@ -52,31 +52,48 @@ export default function AppointmentList({ hospitalId }) {
     <div className="appointment-list grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 ml-64 px-4">
 
       {appointments.map((appointment) => (
-        <div className="appointment-card bg-white border border-gray-300 mt-36 rounded-lg shadow-lg p-6" key={appointment._id}>
-          <div className="appointment-header mb-4">
-            <h3 className="text-xl font-semibold">{appointment.patientName}</h3>
-            <p className="text-sm text-gray-500">{appointment.patientPhone}</p>
-            <p className="text-sm text-gray-500">{appointment.patientEmail}</p>
-          </div>
-
-          <div className="appointment-body mb-4">
-            <p><strong>Symptoms:</strong> {appointment.symptoms || 'Not provided'}</p>
-            <p><strong>Appointment Date:</strong> {new Date(appointment.date).toLocaleString()}</p>
-          </div>
-
-          <div className="appointment-footer flex justify-between items-center">
-            <p className="text-sm">Status: {appointment.status}</p>
-            <select
-              className="border border-gray-300 rounded px-2 py-1"
-              value={appointment.status}
-              onChange={(e) => handleStatusChange(appointment._id, e.target.value)}
-            >
-              <option value="Scheduled">Scheduled</option>
-              <option value="Completed">Completed</option>
-              <option value="Cancelled">Cancelled</option>
-            </select>
-          </div>
-        </div>
+       <>
+  
+       {/* Navbar */}
+       <nav className="bg-gray-200 p-4 fixed top-0 w-full ml-[256px] z-10 shadow-md">
+         <div className="flex items-center justify-between px-10">
+           <div className="flex items-center space-x-10">
+             <img src="/logo.png" alt="Hospital Logo" className="h-12" />
+             <span className="text-4xl font-bold">Hospital Name</span>
+           </div>
+         </div>
+       </nav>
+     <div className="appointment-list grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 ml-64 px-4">
+ 
+       {appointments.map((appointment) => (
+         <div className="appointment-card bg-white border border-gray-300 mt-36 rounded-lg shadow-lg p-6" key={appointment._id}>
+           <div className="appointment-header mb-4">
+             <h3 className="text-xl font-semibold">{appointment.patientName}</h3>
+             <p className="text-sm text-gray-500">{appointment.patientPhone}</p>
+             <p className="text-sm text-gray-500">{appointment.patientEmail}</p>
+           </div>
+ 
+           <div className="appointment-body mb-4">
+             <p><strong>Symptoms:</strong> {appointment.symptoms || 'Not provided'}</p>
+             <p><strong>Appointment Date:</strong> {new Date(appointment.date).toLocaleString()}</p>
+           </div>
+ 
+           <div className="appointment-footer flex justify-between items-center">
+             <p className="text-sm">Status: {appointment.status}</p>
+             <select
+               className="border border-gray-300 rounded px-2 py-1"
+               value={appointment.status}
+               onChange={(e) => handleStatusChange(appointment._id, e.target.value)}
+             >
+               <option value="Scheduled">Scheduled</option>
+               <option value="Completed">Completed</option>
+               <option value="Cancelled">Cancelled</option>
+             </select>
+           </div>
+         </div>
+       ))}
+     </div>
+     </>
       ))}
     </div>
     </>

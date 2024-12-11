@@ -1,6 +1,5 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import UserNav from "../../components/navbar/UserNav";
 
 const HospitalDetails = () => {
   const { state } = useLocation();
@@ -13,7 +12,7 @@ const HospitalDetails = () => {
   return (
     <div className="flex">
       <div className="fixed w-64 h-full">
-        <UserNav />
+       
       </div>
 
       {/* Content */}
