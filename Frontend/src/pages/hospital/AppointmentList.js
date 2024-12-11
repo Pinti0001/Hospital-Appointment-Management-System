@@ -38,10 +38,21 @@ export default function AppointmentList({ hospitalId }) {
   if (loading) return <div className="ml-64 mt-10">Loading appointments...</div>;
   if (error) return <div className="ml-64 mt-10">{error}</div>;
 
-  return (
-    <div className="appointment-list grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 ml-64 mt-10 px-4">
+  return (<>
+  
+      {/* Navbar */}
+      <nav className="bg-gray-200 p-4 fixed top-0 w-full ml-[256px] z-10 shadow-md">
+        <div className="flex items-center justify-between px-10">
+          <div className="flex items-center space-x-10">
+            <img src="/logo.png" alt="Hospital Logo" className="h-12" />
+            <span className="text-4xl font-bold">Hospital Name</span>
+          </div>
+        </div>
+      </nav>
+    <div className="appointment-list grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 ml-64 px-4">
+
       {appointments.map((appointment) => (
-        <div className="appointment-card bg-white border border-gray-300 rounded-lg shadow-lg p-6" key={appointment._id}>
+        <div className="appointment-card bg-white border border-gray-300 mt-36 rounded-lg shadow-lg p-6" key={appointment._id}>
           <div className="appointment-header mb-4">
             <h3 className="text-xl font-semibold">{appointment.patientName}</h3>
             <p className="text-sm text-gray-500">{appointment.patientPhone}</p>
@@ -68,5 +79,6 @@ export default function AppointmentList({ hospitalId }) {
         </div>
       ))}
     </div>
+    </>
   );
 }
