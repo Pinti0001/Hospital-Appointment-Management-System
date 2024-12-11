@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { FaHospital } from "react-icons/fa";
-import UserNav from "../../components/navbar/UserNav";
 import { fetchHospitals } from "../services/Api"; // Importing the fetchHospitals function
 import { Link } from "react-router-dom";
 
@@ -28,7 +27,6 @@ const HospitalList = () => {
 
   return (
     <div>
-      <UserNav />
       <div className="min-h-screen bg-gray-100 p-6">
         <h1 className="text-3xl font-bold text-orange-600 text-center mb-6">
           Hospital List
