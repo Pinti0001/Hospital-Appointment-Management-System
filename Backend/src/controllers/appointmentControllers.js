@@ -26,3 +26,21 @@ export const getAppointments = async (req, res) => {
     res.status(500).json({ message: "Error fetching hospitals" });
   }
 };
+
+export const getAppointmentsByUser = async (req, res) => {
+  const { userId } = req.query;
+  if (!userId) {
+    return res.status(400).json({ message: "User ID is required." });
+  }
+  try {
+    const appointments = await Appointment.find({ userId })
+      .populate("doctorId", "name specialization") 
+      .populate("hospitalId", "hospitalName city");
+
+    res.status(200).json(appointments);
+  } catch (error) {
+    console.error("Error fetching appointments:", error);
+    res.status(500).json({ message: "Error fetching appointments." });
+  }
+};
+
