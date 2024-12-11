@@ -23,9 +23,22 @@ const hospitalInfoSlice = createSlice({
       state.city_pinCode = action.payload.city_pinCode;
       state.hospitalObjectId = action.payload.hospitalObjectId;
     },
+    logout: () => {
+      // Reset state to its initial values
+      return {
+        hospitalName: "",
+        email: "",
+        number: "",
+        address: "",
+        state: "",
+        district: "",
+        city_pinCode: "",
+        hospitalObjectId: "",
+      };
+    },
   },
 });
 
-export const { setHospitalInfo } = hospitalInfoSlice.actions;
+export const { setHospitalInfo, logout } = hospitalInfoSlice.actions;
 
 export default hospitalInfoSlice.reducer;
