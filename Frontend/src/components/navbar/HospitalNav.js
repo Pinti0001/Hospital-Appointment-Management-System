@@ -1,17 +1,27 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FcHome, FcCalendar, FcReading, FcSms,  FcManager } from "react-icons/fc";
+import { Link, useNavigate } from 'react-router-dom';
+import { FcHome, FcCalendar, FcReading, FcSms, FcManager } from "react-icons/fc";
 import { FaHospitalUser } from "react-icons/fa";
 import HosLogo from "../../assets/HosLogo.jpeg"
+import { useDispatch } from 'react-redux';
+import { logout } from '../../slice/hospitalInfo'
 
 
 const HospitalNav = () => {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
+    const navigate = useNavigate("");
+    const dispatch = useDispatch();
 
     const toggleSidebar = () => {
         setIsCollapsed(!isCollapsed);
     };
+
+
+    const handleLogout = () => {
+        dispatch(logout()); // Clear Redux state
+        navigate("/")
+    }
 
     return (
         <div
@@ -89,9 +99,9 @@ const HospitalNav = () => {
                             <Link to="/profile" className="block px-4 py-2 hover:bg-gray-200">
                                 Profile
                             </Link>
-                            <Link to="/logout" className="block px-4 py-2 hover:bg-gray-200">
+                            <button className="block px-4 py-2 hover:bg-gray-200" onClick={handleLogout}>
                                 Logout
-                            </Link>
+                            </button>
                         </div>
                     )}
                 </div>

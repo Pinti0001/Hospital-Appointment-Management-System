@@ -15,9 +15,18 @@ const userInfoSlice = createSlice({
       state.number = action.payload.number;
       state.userObjectId = action.payload.userObjectId;
     },
+
+    logout: () => {
+      // Reset state to its initial values
+      return {
+        email: "",
+        number: "",
+        userObjectId: "",
+      };
+    },
   },
 });
 
-export const {setUserInfo} = userInfoSlice.actions;
+export const { setUserInfo, logout } = userInfoSlice.actions;
 
 export default userInfoSlice.reducer;
