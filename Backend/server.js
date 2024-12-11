@@ -22,7 +22,7 @@ app.use("/api/auth", authRoutes);
 app.get("/api/protected", authMiddleware, (req, res) => {
   res.status(200).json({ message: "This is a protected route", user: req.user });
 });
-app.use("/api/hospialprof", hospitalRoutes );
+app.use("/api/hospitalprof", hospitalRoutes );
 app.use("/api/user", patientRoutes );
 app.use("/api/appointments", appointmentRoutes)
 
