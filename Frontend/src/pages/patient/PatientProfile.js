@@ -1,100 +1,275 @@
-import React, { useEffect, useState } from 'react';
-import { FaStar } from 'react-icons/fa';  // For rating
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Rating } from "@mui/material";
+import { fetchUserAppointments, getUserDetails } from "../services/Api";
+import {
+  saveAdditionalDetails as saveDetails,
+  submitFeedback as sendFeedback,
+} from "../services/Api";
 
-export default function PatientProfile() {
-  const [user, setUser] = useState(null);
+const PatientProfile = () => {
+  const userId = useSelector((state) => state.userInfo.userObjectId);
   const [appointments, setAppointments] = useState([]);
-  const [review,setReview] = useState('');
-  const [rating,setRating] = useState('');
+  const [feedback, setFeedback] = useState({});
+  const [user, setUser] = useState({});
+  const [additionalDetails, setAdditionalDetails] = useState({
+    name: "",
+    dob: "",
+    email: "",
+    mobile: "",
+    image: null, // Added field for image
+  });
 
-  // Fetch user data and appointments
   useEffect(() => {
-    // Assuming you have an endpoint to get the user data and their appointments
-    const fetchUserData = async () => {
+    const fetchAppointments = async () => {
       try {
-        const response = await axios.get('/api/user/profile'); // Adjust endpoint as needed
-        setUser(response.data.user);
-        
-        // Fetch the appointments for the user
-        const appointmentResponse = await axios.get(`/api/appointments/${response.data.user._id}`);
-        setAppointments(appointmentResponse.data);
+        const userDetails = await getUserDetails(userId);
+        const response = await fetchUserAppointments(userId);
+        setAppointments(response);
+        setUser(userDetails);
+        setAdditionalDetails({
+          name: userDetails.name || "",
+          dob: userDetails.dob || "",
+          email: userDetails.email || "",
+          mobile: userDetails.mobile || "",
+          image: userDetails.image || null, // Load existing image if available
+        });
       } catch (error) {
-        console.error('Error fetching user data', error);
+        console.error("Error fetching appointments:", error);
       }
     };
 
-    fetchUserData();
-  }, []);
+    if (userId) {
+      fetchAppointments();
+    }
+  }, [userId]);
 
-  const handleReviewSubmit = async (appointmentId, review, rating) => {
-    try {
-      const response = await axios.post(`/api/appointments/review/${appointmentId}`, { review, rating });
-      // Update appointments state or re-fetch data
-      setAppointments(prev => prev.map(app => app._id === appointmentId ? { ...app, review, rating } : app));
-    } catch (error) {
-      console.error('Error submitting review', error);
+  const handleAdditionalDetailsChange = (field, value) => {
+    setAdditionalDetails((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setAdditionalDetails((prev) => ({
+        ...prev,
+        image: file, // Store the file object in the state
+      }));
     }
   };
 
+  const saveAdditionalDetails = async () => {
+    try {
+      const message = await saveDetails(userId, additionalDetails);
+      alert(message);
+    } catch (error) {
+      console.error("Error updating details:", error);
+      alert("Failed to update details. Please try again.");
+    }
+  };
+
+  const submitFeedback = async (appointmentId) => {
+    try {
+      const feedbackData = {
+        rating: feedback[appointmentId]?.rating || 0,
+        comments: feedback[appointmentId]?.comments || "",
+      };
+
+      const message = await sendFeedback(appointmentId, feedbackData);
+      alert(message);
+
+      // Mark appointment as reviewed
+      setAppointments((prevAppointments) =>
+        prevAppointments.map((appointment) =>
+          appointment._id === appointmentId
+            ? { ...appointment, isReviewed: true }
+            : appointment
+        )
+      );
+    } catch (error) {
+      console.error("Error submitting feedback:", error);
+      alert("Failed to submit feedback. Please try again.");
+    }
+  };
+
+  const handleFeedbackChange = (appointmentId, field, value) => {
+    setFeedback((prev) => ({
+      ...prev,
+      [appointmentId]: {
+        ...prev[appointmentId],
+        [field]: value,
+      },
+    }));
+  };
+
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
-      {user && (
-        <>
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-semibold">Patient Profile</h1>
-            <p className="text-lg">{user.name ? user.name : 'User'}</p>
-            <p className="text-sm text-gray-600">{user.email}</p>
-            <p className="text-sm text-gray-600">DOB: {user.dob ? new Date(user.dob).toLocaleDateString() : 'N/A'}</p>
+    <div className="min-h-screen bg-gray-100 p-6 flex flex-col items-center">
+      <div className="relative w-full max-w-4xl">
+        {/* Background Section */}
+        <div className="relative h-64 w-full bg-gradient-to-r from-purple-400 via-purple-500 to-purple-600 rounded-t-lg">
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <div className="w-32 h-32 bg-white rounded-full overflow-hidden border-4 border-white">
+              {/* Display user image */}
+              <img
+                src={additionalDetails.image || "https://via.placeholder.com/150"}
+                alt="User"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <h1 className="text-2xl font-bold text-white mt-4">
+              {additionalDetails.name}
+            </h1>
           </div>
+        </div>
 
-          <div className="mt-8">
-            <h2 className="text-2xl font-semibold mb-4">Your Appointments</h2>
-            <div className="space-y-4">
-              {appointments.map((appointment) => (
-                <div key={appointment._id} className="p-4 bg-white shadow-md rounded-lg">
-                  <div className="flex justify-between">
-                    <h3 className="text-xl font-semibold">{appointment.doctorId ? appointment.doctorId.name : 'Doctor Name'}</h3>
-                    <p className="text-sm text-gray-500">{new Date(appointment.date).toLocaleDateString()}</p>
-                  </div>
-                  <p className="text-gray-600 mt-2">Status: {appointment.status}</p>
-
-                  {appointment.status === 'Completed' && !appointment.review && (
-                    <div className="mt-4">
-                      <textarea
-                        placeholder="Write your review here..."
-                        className="w-full p-2 border rounded-md"
-                        rows="3"
-                        onChange={(e) => setReview(e.target.value)}  // Add local state for review
-                      ></textarea>
-                      <div className="flex items-center mt-2">
-                        <span className="mr-2">Rating:</span>
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <FaStar key={star} className="cursor-pointer text-yellow-500" onClick={() => setRating(star)} />
-                        ))}
-                      </div>
-                      <button
-                        onClick={() => handleReviewSubmit(appointment._id, review, rating)} // Submit review
-                        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md"
-                      >
-                        Submit Review
-                      </button>
-                    </div>
-                  )}
-
-                  {appointment.review && (
-                    <div className="mt-4">
-                      <p className="text-gray-600 font-semibold">Review:</p>
-                      <p>{appointment.review}</p>
-                      <p className="text-yellow-500">Rating: {appointment.rating} / 5</p>
-                    </div>
-                  )}
-                </div>
-              ))}
+        {/* Profile Details Section */}
+        <div className="bg-white shadow-lg rounded-lg p-6 -mt-16 space-y-6">
+          <h2 className="text-xl font-semibold text-gray-700">
+            Profile Information
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-gray-600">Email</label>
+              <input
+                type="email"
+                value={additionalDetails.email}
+                onChange={(e) =>
+                  handleAdditionalDetailsChange("email", e.target.value)
+                }
+                className="w-full p-2 border rounded-lg"
+              />
+            </div>
+            <div>
+              <label className="block text-gray-600">Mobile</label>
+              <input
+                type="tel"
+                value={additionalDetails.mobile}
+                onChange={(e) =>
+                  handleAdditionalDetailsChange("mobile", e.target.value)
+                }
+                className="w-full p-2 border rounded-lg"
+              />
+            </div>
+            <div>
+              <label className="block text-gray-600">Name</label>
+              <input
+                type="text"
+                value={additionalDetails.name}
+                onChange={(e) =>
+                  handleAdditionalDetailsChange("name", e.target.value)
+                }
+                className="w-full p-2 border rounded-lg"
+              />
+            </div>
+            <div>
+              <label className="block text-gray-600">Date of Birth</label>
+              <input
+                type="date"
+                value={additionalDetails.dob}
+                onChange={(e) =>
+                  handleAdditionalDetailsChange("dob", e.target.value)
+                }
+                className="w-full p-2 border rounded-lg"
+              />
+            </div>
+            <div>
+              <label className="block text-gray-600">Profile Image</label>
+              <input
+                type="file"
+                onChange={handleImageChange}
+                className="w-full p-2 border rounded-lg"
+              />
             </div>
           </div>
-        </>
-      )}
+          <button
+            className="bg-purple-500 text-white py-2 px-4 rounded-lg hover:bg-purple-600"
+            onClick={saveAdditionalDetails}
+          >
+            Save Changes
+          </button>
+        </div>
+      </div>
+
+
+
+      {/* Appointments Section */}
+      <div className="w-full max-w-4xl mt-8">
+        <h2 className="text-2xl font-bold mb-4">My Appointments</h2>
+        {appointments.length === 0 ? (
+          <p>No appointments found.</p>
+        ) : (
+          <div className="space-y-4">
+            {appointments.map((appointment) => (
+              <div
+                key={appointment._id}
+                className="border p-4 rounded-lg shadow bg-white"
+              >
+                <p>
+                  <strong>Hospital:</strong> {appointment.hospitalId.name}
+                </p>
+                <p>
+                  <strong>Doctor:</strong> {appointment.doctorId.name}
+                </p>
+                <p>
+                  <strong>Date:</strong>{" "}
+                  {new Date(appointment.date).toLocaleDateString()}
+                </p>
+                <p>
+                  <strong>Patient Name:</strong> {appointment.patientName}
+                </p>
+                <p>
+                  <strong>Status:</strong> {appointment.status}
+                </p>
+
+                {appointment.isReviewed ? (
+                  <p className="text-green-600 mt-4 font-semibold">
+                    You already reviewed this appointment
+                  </p>
+                ) : (
+                  <div className="mt-4">
+                    <h3 className="text-lg font-semibold">Leave Feedback</h3>
+                    <div className="flex flex-col space-y-2">
+                      <Rating
+                        value={feedback[appointment._id]?.rating || 0}
+                        onChange={(e, newValue) =>
+                          handleFeedbackChange(
+                            appointment._id,
+                            "rating",
+                            newValue
+                          )
+                        }
+                      />
+                      <textarea
+                        className="p-2 border rounded-lg"
+                        placeholder="Write your feedback here..."
+                        value={feedback[appointment._id]?.comments || ""}
+                        onChange={(e) =>
+                          handleFeedbackChange(
+                            appointment._id,
+                            "comments",
+                            e.target.value
+                          )
+                        }
+                      />
+                      <button
+                        className="bg-purple-500 text-white py-2 px-4 rounded-lg hover:bg-purple-600"
+                        onClick={() => submitFeedback(appointment._id)}
+                      >
+                        Submit Feedback
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
-}
+};
+
+export default PatientProfile;

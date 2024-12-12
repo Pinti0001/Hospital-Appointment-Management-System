@@ -1,14 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MdLogin } from "react-icons/md";
 import { FaCalendarCheck, FaHospital, FaComment } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { Rating } from "@mui/material";
+import { fetchFeedbacks } from "../services/Api";
 
 const PatientDashboard = () => {
   const navigate = useNavigate("");
+  const [reviews, setReviews] = useState([]);
+
+  useEffect(() => {
+    const loadFeedbacks = async () => {
+      try {
+        const feedbacks = await fetchFeedbacks();
+        setReviews(feedbacks);
+      } catch (error) {
+        console.error("Error loading feedbacks:", error);
+      }
+    };
+
+    loadFeedbacks();
+  }, []);
+
   function moveToHospitalList() {
     navigate("/hospital-list");
   }
+
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 ml-64">
       {/* Hero Section */}
@@ -70,38 +88,50 @@ const PatientDashboard = () => {
           Our Services
         </h2>
         <div className="grid md:grid-cols-3 gap-8">
-          {["Appointments", "Medical Consultations", "AI in Medical"].map((service, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ scale: 1.05 }}
-              className="p-6 bg-white shadow-md rounded-lg text-center"
-            >
-              <h3 className="text-xl font-semibold mb-2">{service}</h3>
-              <p className="text-gray-600">
-                Comprehensive care for {service.toLowerCase()}.
-              </p>
-            </motion.div>
-          ))}
+          {["Appointments", "Medical Consultations", "AI in Medical"].map(
+            (service, index) => (
+              <motion.div
+                key={index}
+                whileHover={{ scale: 1.05 }}
+                className="p-6 bg-white shadow-md rounded-lg text-center"
+              >
+                <h3 className="text-xl font-semibold mb-2">{service}</h3>
+                <p className="text-gray-600">
+                  Comprehensive care for {service.toLowerCase()}.
+                </p>
+              </motion.div>
+            )
+          )}
         </div>
       </section>
 
+      {/* Happy Customers Section */}
       <section className="py-16 px-8 bg-gray-100">
         <h2 className="text-3xl font-semibold text-center mb-8">
           Our Happy Customers
         </h2>
-        <div className="grid md:grid-cols-3 gap-8">
-          {["Appointments", "Medical Consultations", "AI in Medical"].map((service, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ scale: 1.05 }}
-              className="p-6 bg-white shadow-md rounded-lg text-center"
-            >
-              <h3 className="text-xl font-semibold mb-2">{service}</h3>
-              <p className="text-gray-600">
-                Comprehensive care for {service.toLowerCase()}.
-              </p>
-            </motion.div>
-          ))}
+        <div className="overflow-x-auto">
+          <div className="flex space-x-6">
+            {reviews.map((review, index) => (
+              <motion.div
+                key={index}
+                whileHover={{ scale: 1.05 }}
+                className="flex-none w-80 p-6 bg-white shadow-md rounded-lg text-center"
+              >
+                {/* Display patient image */}
+                <img
+                  src={review.appointment?.userId?.image}
+                  alt={review.appointment?.patientName || "Anonymous"}
+                  className="w-16 h-16 rounded-full mx-auto mb-4"
+                />
+                <h3 className="text-xl font-semibold mb-2">
+                  {review.appointment?.patientName || "Anonymous"}
+                </h3>
+                <Rating value={review.rating} readOnly />
+                <p className="text-gray-600 mt-2">{review.comments}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 

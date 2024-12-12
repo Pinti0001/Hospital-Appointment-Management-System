@@ -8,7 +8,14 @@ import {authMiddleware} from "./src/middlewares/authMiddleware.js";
 import hospitalRoutes from './src/routes/hospitalRoutes.js';
 import patientRoutes from "./src/routes/patientRoutes.js"
 import appointmentRoutes from "./src/routes/appointmentRoutes.js"
+import reviewRoutes from "./src/routes/reviewRoutes.js"
+import cloudinary from 'cloudinary';
 
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME, // Your cloud name
+  api_key: process.env.CLOUDINARY_API_KEY,      // Your API Key
+  api_secret: process.env.CLOUDINARY_API_SECRET // Your API Secret
+});
 
 dotenv.config()
 const app = express();
@@ -25,6 +32,7 @@ app.get("/api/protected", authMiddleware, (req, res) => {
 app.use("/api/hospitalprof", hospitalRoutes );
 app.use("/api/user", patientRoutes );
 app.use("/api/appointments", appointmentRoutes)
+app.use("/api/review", reviewRoutes)
 
 
 const PORT = process.env.PORT || 5000;
