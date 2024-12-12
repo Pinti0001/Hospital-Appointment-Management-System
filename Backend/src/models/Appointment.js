@@ -42,6 +42,9 @@ const appointmentSchema = new mongoose.Schema({
     enum: ["Scheduled", "Completed", "Cancelled"], // Appointment status
     default: "Scheduled",
   },
+  isReviewed: {
+     type: Boolean, default: false
+     },
   createdAt: {
     type: Date,
     default: Date.now, // Automatically set the creation timestamp

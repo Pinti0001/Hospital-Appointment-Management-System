@@ -99,3 +99,53 @@ export const fetchUserAppointments = async (userId) => {
   }
  
 };
+
+
+export const getUserDetails = async (userId) => {
+  try {
+    const response = await axios.get(`${API_URL}user/getuserDetails?userId=${userId}`);
+    return response.data;
+  } catch (err) {
+    console.log("Failed to fetch appointments. Please try again later.");
+    throw err
+  }
+ 
+};
+export const saveAdditionalDetails = async (userId, additionalDetails) => {
+  const formData = new FormData();
+  Object.keys(additionalDetails).forEach((key) => {
+    formData.append(key, additionalDetails[key]);
+  });
+
+  try {
+    await axios.put(`${API_URL}user/update/${userId}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data", // Set the content type to multipart/form-data
+      },
+    });
+    return "Details updated successfully!";
+  } catch (error) {
+    console.log("Error updating details ", error);
+    throw new Error("Failed to update details");
+  }
+};
+
+export const submitFeedback = async (appointmentId, feedbackData) => {
+  try {
+    await axios.post(`${API_URL}review/${appointmentId}/feedback`, feedbackData);
+    return ("Feedback submitted successfully!");
+  } catch (error) {
+    console.log("Error submitting feedback ", error);
+    
+  }
+};
+
+export const fetchFeedbacks = async () => {
+  try {
+    const response = await axios.get(`${API_URL}review/feedbacks`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching feedbacks:", error);
+    throw error;
+  }
+};
