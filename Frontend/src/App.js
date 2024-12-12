@@ -65,7 +65,7 @@ function App() {
                 <Route path="/schedule" element={<AppointmentList />} />
                 <Route path="/hospital/:id" element={<HospitalDetails />} />
                 <Route path="/messages" element={<Messages />} />
-                <Route path="/profile" element={<PatientProfile />} />
+                <Route path="/patientprofile" element={<PatientProfile />} />
             </Routes>
 
             <Footer className={isSidebarNav ? 'ml-[256px]' : ''} />

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaUserPlus } from "react-icons/fa";
 import { Link,  useNavigate  } from "react-router-dom";
-import { hospitalSignup } from "../services/Api"; // Assume this is the API for signup
+import { hospitalSignup } from "../services/Api"; 
 import { useDispatch, useSelector } from "react-redux";
 import { setHospitalInfo } from "../../slice/hospitalInfo";
 
