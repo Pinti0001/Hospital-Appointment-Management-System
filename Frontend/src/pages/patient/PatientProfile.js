@@ -109,7 +109,7 @@ const PatientProfile = () => {
     <div className="min-h-screen bg-gray-100 p-6 flex flex-col items-center">
       <div className="relative w-full max-w-4xl">
         {/* Background Section */}
-        <div className="relative h-64 w-full bg-gradient-to-r from-purple-400 via-purple-500 to-purple-600 rounded-t-lg">
+        <div className="relative h-64 w-full bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 rounded-t-lg">
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <div className="w-32 h-32 bg-white rounded-full overflow-hidden border-4 border-white">
               {/* Display user image */}
@@ -185,7 +185,7 @@ const PatientProfile = () => {
             </div>
           </div>
           <button
-            className="bg-purple-500 text-white py-2 px-4 rounded-lg hover:bg-purple-600"
+            className="bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600"
             onClick={saveAdditionalDetails}
           >
             Save Changes
@@ -255,7 +255,7 @@ const PatientProfile = () => {
                         }
                       />
                       <button
-                        className="bg-purple-500 text-white py-2 px-4 rounded-lg hover:bg-purple-600"
+                        className="bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600"
                         onClick={() => submitFeedback(appointment._id)}
                       >
                         Submit Feedback
