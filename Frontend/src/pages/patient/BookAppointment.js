@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom"; 
 import { FcCalendar } from "react-icons/fc";
 import { bookAppointment } from "../services/Api"; 
+import socket from "../../hooks/useSocket";
 
 export default function BookAppointment() {
   const { hospitalId, doctorId } = useParams(); 
@@ -34,6 +35,8 @@ export default function BookAppointment() {
       const response = await bookAppointment(payload);
       alert("Appointment booked successfully!");
 
+      // Emit a real-time event
+      socket.emit("appointmentBooked", response.data);
 
       setFormData({
         patientName: "",

@@ -2,6 +2,7 @@ import './App.css';
 import { Routes, Route } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { useState, useEffect } from "react";
+import { io } from 'socket.io-client';
 
 import Navbar from "./components/navbar/Navbar";
 import HospitalNav from './components/navbar/HospitalNav';
@@ -19,10 +20,13 @@ import PatientDashboard from './pages/patient/PatientDashboard';
 import BookAppointment from "./pages/patient/BookAppointment";
 import HospitalProfile from './pages/hospital/HospitalProfile';
 import AppointmentList from './pages/hospital/AppointmentList';
-import Messages from './pages/patient/Messages';
+import PtMessages from './pages/patient/PtMessages';
 import PatientProfile from './pages/patient/PatientProfile';
 import Footer from './components/footer/Footer';
 import CreateDoctor from './pages/hospital/DoctorInfo';
+
+const socket = io("http://localhost:8070"); // Connect to the server
+
 
 function App() {
     const hospitalIdFromStore = useSelector((state) => state.hospitalInfo.hospitalObjectId);
@@ -30,10 +34,20 @@ function App() {
 
     const [hospitalObjectId, setHospitalObjectId] = useState(null);
     const [userObjectId, setUserObjectId] = useState(null);
+    const [appointmentUpdate, setAppointmentUpdate] = useState(null);
 
     useEffect(() => {
         setHospitalObjectId(hospitalIdFromStore);
         setUserObjectId(userIdFromStore);
+
+        socket.on('appointmentUpdate', (data) => {
+            setAppointmentUpdate(data); // Update state with new appointment info
+        });
+
+        // Clean up on unmount
+        return () => {
+            socket.off('appointmentUpdate');
+        };
     }, [hospitalIdFromStore, userIdFromStore]);
 
     const renderNavBar = () => {
@@ -65,12 +79,19 @@ function App() {
                 <Route path="/hospitalpage" element={<HospitalProfile />} />
                 <Route path="/schedule" element={<AppointmentList />} />
                 <Route path="/hospital/:hospitalId" element={<HospitalDetails />} />
-                <Route path="/messages" element={<Messages />} />
+                <Route path="/ptmessages" element={<PtMessages />} />
                 <Route path="/patientprofile" element={<PatientProfile />} />
                 <Route path="/add-doctor" element={<CreateDoctor />} />
             </Routes>
 
             <Footer className={isSidebarNav ? 'ml-[256px]' : ''} />
+
+            {/* Display real-time appointment update */}
+            {appointmentUpdate && (
+                <div className="notification">
+                    <p>New appointment update: {appointmentUpdate.details}</p>
+                </div>
+            )}
         </>
     );
 }

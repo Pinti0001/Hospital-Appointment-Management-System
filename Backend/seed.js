@@ -81,24 +81,24 @@ import mongoose from "mongoose";
 import Doctor from "./src/models/Doctor.js"; // Adjust path as needed
 
 const doctors = [
-  {
-    name: "Dr. Arjun Mehta",
-    specialization: "Cardiologist",
-    hospital: "675bc0e17a315e12333f430e",
-    availableSlots: [
-      { date: "2024-12-15", time: "10:00 AM" },
-      { date: "2024-12-15", time: "2:00 PM" },
-      { date: "2024-12-16", time: "11:00 AM" }
-    ],
-    reviews: [
-      { patient: "675bc0e17a315e12333f4312", rating: 5, comment: "Very knowledgeable and kind." },
-      { patient: "675bc0e17a315e12333f4313", rating: 4, comment: "Helped me with my heart condition." }
-    ]
-  },
+  // {
+  //   name: "Dr. Arjun Mehta",
+  //   specialization: "Cardiologist",
+  //   hospital: "675bc0e17a315e12333f430e",
+  //   availableSlots: [
+  //     { date: "2024-12-15", time: "10:00 AM" },
+  //     { date: "2024-12-15", time: "2:00 PM" },
+  //     { date: "2024-12-16", time: "11:00 AM" }
+  //   ],
+  //   reviews: [
+  //     { patient: "675bc0e17a315e12333f4312", rating: 5, comment: "Very knowledgeable and kind." },
+  //     { patient: "675bc0e17a315e12333f4313", rating: 4, comment: "Helped me with my heart condition." }
+  //   ]
+  // },
   {
     name: "Dr. Neha Sharma",
     specialization: "Dermatologist",
-    hospital: "675bc0e17a315e12333f430f",
+    hospital: "675bda13097d0515df582f0a",
     availableSlots: [
       { date: "2024-12-17", time: "9:00 AM" },
       { date: "2024-12-17", time: "1:00 PM" },

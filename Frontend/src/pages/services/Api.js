@@ -167,3 +167,13 @@ export const createDoctor = async (doctorData) => {
     throw error.response?.data || { message: "Failed to add doctor" };
   }
 };
+
+export const updateAppointmentStatus = async (appointmentId, status) => {
+  try {
+    const response = await axios.patch(`${API_URL}appointments/${appointmentId}`, { status });
+    return response.data; // Returns updated appointment data
+  } catch (error) {
+    console.error("Error updating appointment status:", error.response?.data || error.message);
+    throw error.response?.data || { message: "Failed to update appointment status" };
+  }
+};
