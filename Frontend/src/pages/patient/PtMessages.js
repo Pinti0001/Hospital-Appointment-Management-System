@@ -1,13 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { fetchUserAppointments } from "../services/Api";
+import { useSocket } from "../../hooks/useSocket";
 
-export default function Messages() {
+export default function PtMessages() {
   const userObjectId = useSelector((state) => state.userInfo.userObjectId);
   const [appointments, setAppointments] = useState([]);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const updateAppointment = useCallback((data) => {
+    setAppointments((prevAppointments) =>
+      prevAppointments.map((appointment) =>
+        appointment._id === data._id ? { ...appointment, ...data } : appointment
+      )
+    );
+  }, []);
+
+  useSocket((socket) => {
+    socket.on("statusUpdated", updateAppointment);
+  });
 
   useEffect(() => {
     const loadAppointments = async () => {
@@ -54,6 +67,7 @@ export default function Messages() {
                     {appointment.hospitalId.hospitalName}
                   </h2>
                   <p className="text-gray-600 text-sm">Doctor: {appointment.doctorId.name}</p>
+                  <p>Status: {appointment.status}</p>
                 </li>
               ))}
             </ul>
