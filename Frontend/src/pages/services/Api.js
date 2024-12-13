@@ -12,7 +12,6 @@ export const hospitalSignup = async (userData) => {
     throw error.response?.data || { message: "Signup failed" };
   }
 };
-
 // Login Function
 export const hospitalLogin = async (loginData) => {
   try {
