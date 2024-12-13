@@ -10,6 +10,7 @@ import patientRoutes from "./src/routes/patientRoutes.js"
 import appointmentRoutes from "./src/routes/appointmentRoutes.js"
 import reviewRoutes from "./src/routes/reviewRoutes.js"
 import cloudinary from 'cloudinary';
+import doctorRoutes from "./src/routes/doctorRoutes.js"
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME, // Your cloud name
@@ -33,6 +34,7 @@ app.use("/api/hospitalprof", hospitalRoutes );
 app.use("/api/user", patientRoutes );
 app.use("/api/appointments", appointmentRoutes)
 app.use("/api/review", reviewRoutes)
+app.use("/api/doctor", doctorRoutes)
 
 
 const PORT = process.env.PORT || 5000;

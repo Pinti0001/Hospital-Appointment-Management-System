@@ -3,18 +3,37 @@ import User from "../models/User.js";
 import cloudinary from 'cloudinary';
 import fs from 'fs';
 import path from 'path';
-export const getAllHospitals = async (req, res) => {
+
+export const getNearbyHospitals = async (req, res) => {
+  const { latitude, longitude } = req.query;
+
+  if (!latitude || !longitude) {
+    return res.status(400).json({ message: "Latitude and longitude are required" });
+  }
+
+  const userLocation = [parseFloat(longitude), parseFloat(latitude)];
+  const maxDistanceInMeters = 10000; // 10 km in meters
+
   try {
-    const hospitals = await Hospital.find().populate('doctors');
-    if(hospitals.length===0){
-        res.status(200).json({message:"No hospitals found"});
+    const hospitals = await Hospital.find({
+      location: {
+        $geoWithin: {
+          $centerSphere: [userLocation, maxDistanceInMeters / 6371000], // Earth radius in meters
+        },
+      },
+    });
+    if(hospitals.length==0){
+      res.status(400).json({ message:"No hospitals available" });
+
     }
-    res.status(200).json(hospitals); 
+
+    res.status(200).json({ data: hospitals });
   } catch (error) {
-    console.error("Error fetching hospitals:", error);
-    res.status(500).json({ message: "Error fetching hospitals" });
+    console.error(error);
+    res.status(500).json({ message: "Error retrieving hospitals" });
   }
 };
+
 
 export const getUserDetails = async (req, res) => {
   const { userId } = req.query;

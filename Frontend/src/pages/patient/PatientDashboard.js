@@ -108,7 +108,7 @@ const PatientDashboard = () => {
       {/* Happy Customers Section */}
       <section className="py-16 px-8 bg-gray-100">
         <h2 className="text-3xl font-semibold text-center mb-8">
-          Our Happy Customers
+          Our Served Patients
         </h2>
         <div className="overflow-x-auto">
           <div className="flex space-x-6">

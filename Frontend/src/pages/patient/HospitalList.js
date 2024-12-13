@@ -1,24 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { FaHospital } from "react-icons/fa";
-import { fetchHospitals } from "../services/Api"; // Importing the fetchHospitals function
+import axios from "axios"; // Make sure axios is imported
 import { Link } from "react-router-dom";
+import { fetchHospitals } from "../services/Api";
 
-const HospitalList = () => {
+
+export const HospitalList = () => {
   const [hospitals, setHospitals] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [userLocation, setUserLocation] = useState(null);
+  const [locationError, setLocationError] = useState(null);
 
-  // Fetch hospital data from the backend using fetchHospitals
+  // Get user's location
   useEffect(() => {
-    const getHospitals = async () => {
-      try {
-        const data = await fetchHospitals();
-        setHospitals(data);
-      } catch (error) {
-        console.error("Error fetching hospitals:", error);
+    const getUserLocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            setUserLocation({ latitude, longitude });
+          },
+          (error) => {
+            setLocationError("Unable to retrieve your location.");
+          }
+        );
+      } else {
+        setLocationError("Geolocation is not supported by this browser.");
       }
     };
-    getHospitals();
+    getUserLocation();
   }, []);
+  // Fetch hospitals once the location is available
+  useEffect(() => {
+    if (userLocation) {
+      const { latitude, longitude } = userLocation;
+      fetchHospitals(latitude, longitude)
+        .then((response) => setHospitals(response.data))
+        .catch((error) => {
+          console.error(error);
+          setLocationError("Error fetching hospitals.");
+        });
+      
+    }
+  }, [userLocation]);
 
   // Filter hospitals based on search term
   const filteredHospitals = hospitals.filter((hospital) =>
@@ -29,7 +53,7 @@ const HospitalList = () => {
     <div>
       <div className="min-h-screen bg-gray-100 p-6">
         <h1 className="text-3xl font-bold text-orange-600 text-center mb-6">
-          Hospital List
+          Hospitals Near You
         </h1>
         <div className="max-w-4xl mx-auto">
           <input
@@ -39,6 +63,9 @@ const HospitalList = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+          {locationError && (
+            <p className="text-red-500 text-center mb-4">{locationError}</p>
+          )}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {filteredHospitals.map((hospital) => (
               <Link

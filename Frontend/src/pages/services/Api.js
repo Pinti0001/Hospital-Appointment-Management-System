@@ -56,14 +56,23 @@ export const getHospitalData = async (hospitalId) => {
     throw error.response?.data || { message: "Error fetching hospital data" };
   }
 }
-
-// Fetch All Hospitals
-export const fetchHospitals = async () => {
+export const fetchDoctorsByHospitalId = async (hospitalId) => {
   try {
-    const response = await axios.get(`${API_URL}user/getallhospital`);
-    return (response.data);
+    const response = await axios.get(`${API_URL}doctor/${hospitalId}`);
+    return response.data; // Assuming this returns the list of doctors
   } catch (error) {
-    throw error.response?.data || { message: "Error fetching hospital List" };
+    throw error.response?.data || { message: "Error fetching doctors list" };
+  }
+};
+
+export const fetchHospitals = async (latitude, longitude) => {
+  try {
+    const response = await axios.get(`${API_URL}user/getNearbyHospitals`, {
+      params: { latitude, longitude },
+    });
+    return response.data; // Assuming this returns the hospital data
+  } catch (error) {
+    throw error.response?.data || { message: "Error fetching hospital list" };
   }
 };
 
@@ -71,7 +80,7 @@ export const fetchAppointments = async (uniqueId) => {
   try {
     const response = await axios.get(
       `${API_URL}appointments/getappointment?uniqueId=${uniqueId}`
-    ); //uniqueId is the Hospital Id
+    );
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: "Error fetching hospital List" };
