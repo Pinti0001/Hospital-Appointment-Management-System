@@ -66,7 +66,7 @@ const UserNav = () => {
                 <NavItem
                     icon={<FcManager className="w-6 h-6" />}
                     text="Profile"
-                    link="/profile"
+                    link="/patientprofile"
                     isCollapsed={isCollapsed}
                 />
             </div>
@@ -82,10 +82,10 @@ const UserNav = () => {
                     </button>
                     {!isCollapsed && showDropdown && (
                         <div className="absolute mt-2 w-full bg-white text-black shadow-lg rounded-md">
-                            <Link to="/profile" className="block px-4 py-2 hover:bg-gray-200">
+                            <Link to="/patientprofile" className="block px-4 py-2 hover:bg-gray-200">
                                 Profile
                             </Link>
-                            <button className="block px-4 py-2 hover:bg-gray-200" onClick={handleLogout}>
+                            <button className="block px-4  w-full py-2 hover:bg-gray-200" onClick={handleLogout}>
                                 Logout
                             </button>
                         </div>

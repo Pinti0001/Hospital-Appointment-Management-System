@@ -5,6 +5,7 @@ import applestore from "../../assets/applestore.svg";
 import playstore from "../../assets/playstore.svg";
 import nha from "../../assets/nhalogo.svg";
 import digital from "../../assets/digitalmissionlogo.svg";
+import FeedbackList from "./FeedbackList";
 
 export default function HospitalDashboard() {
   const [currentImage, setCurrentImage] = useState(0);
@@ -50,7 +51,7 @@ export default function HospitalDashboard() {
               to="/ptfeedback"
               className="inline-block bg-cyan-400 hover:bg-cyan-500 text-white px-6 py-3 my-5 rounded-md text-lg font-medium"
             >
-              Patient's Feedback
+              Add / Manage Staffs
             </Link>
           </div>
           <p className="text-lg font-semibold py-4 text-center text-gray-800 md:text-xl lg:text-2xl bg-gradient-to-r from-blue-700 to-teal-600 bg-clip-text text-transparent">
@@ -99,6 +100,7 @@ export default function HospitalDashboard() {
           भारत को बनाये रोग मुक्त
         </h3>
       </div>
+      <FeedbackList/>
     </div>
   );
 }
