@@ -1,33 +1,38 @@
 import mongoose from "mongoose";
 
-const doctorSchema = new mongoose.Schema({
-  name: {
+const availableSlotSchema = new mongoose.Schema({
+  date: {
+    type: Date,
+    required: true,
+  },
+  time: {
     type: String,
     required: true,
   },
-  specialization: {
-    type: String,
-    required: true,
-  },
-  hospital: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Hospital", // Assuming you have a Hospital model
-    required: true,
-  },
-  availableSlots: [
-    {
-      date: String, // e.g., "2024-12-04"
-      time: String, // e.g., "10:00 AM"
-    },
-  ],
-  reviews: [
-    {
-      patient: { type: mongoose.Schema.Types.ObjectId, ref: "Patient" },
-      rating: { type: Number, min: 1, max: 5 },
-      comment: String,
-    },
-  ],
 });
 
+const doctorSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    specialization: {
+      type: String,
+      required: true,
+    },
+    hospital: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Hospital",
+      required: true,
+    },
+    availableSlots: [availableSlotSchema],
+  },
+  { timestamps: true }
+);
+
+doctorSchema.index({ hospital: 1 });
+
 const Doctor = mongoose.model("Doctor", doctorSchema);
+
 export default Doctor;

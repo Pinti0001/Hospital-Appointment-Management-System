@@ -39,6 +39,7 @@ app.use("/api/user", patientRoutes );
 app.use("/api/appointments", appointmentRoutes)
 app.use("/api/review", reviewRoutes)
 app.use("/api/doctor", doctorRoutes)
+app.use("/api/doctors", doctorRoutes);
 
 // Create an HTTP server and integrate Socket.IO
 const server = http.createServer(app);
