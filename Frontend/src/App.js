@@ -22,6 +22,7 @@ import AppointmentList from './pages/hospital/AppointmentList';
 import Messages from './pages/patient/Messages';
 import PatientProfile from './pages/patient/PatientProfile';
 import Footer from './components/footer/Footer';
+import CreateDoctor from './pages/hospital/DoctorInfo';
 
 function App() {
     const hospitalIdFromStore = useSelector((state) => state.hospitalInfo.hospitalObjectId);
@@ -66,6 +67,7 @@ function App() {
                 <Route path="/hospital/:hospitalId" element={<HospitalDetails />} />
                 <Route path="/messages" element={<Messages />} />
                 <Route path="/patientprofile" element={<PatientProfile />} />
+                <Route path="/add-doctor" element={<CreateDoctor />} />
             </Routes>
 
             <Footer className={isSidebarNav ? 'ml-[256px]' : ''} />

@@ -35,6 +35,7 @@ app.use("/api/user", patientRoutes );
 app.use("/api/appointments", appointmentRoutes)
 app.use("/api/review", reviewRoutes)
 app.use("/api/doctor", doctorRoutes)
+app.use("/api/doctors", doctorRoutes);
 
 
 const PORT = process.env.PORT || 5000;

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { getHospitalData } from "../services/Api"; // Import the API function
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const HospitalProfile = () => {
     const [hospital, setHospital] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const navigate = useNavigate();
 
     // Fetch hospital ID from Redux
     const hospitalObjectId = useSelector((state) => state.hospitalInfo.hospitalObjectId);
@@ -32,21 +34,38 @@ const HospitalProfile = () => {
         fetchHospitalData();
     }, [hospitalObjectId]);
 
+    const handleAddDoctorClick = () => {
+        navigate("/add-doctor");
+    };
+
     if (loading) return <div className="ml-64">Loading...</div>;
     if (error) return <div className="ml-64">{error}</div>;
 
     return (
         <div className="min-h-screen bg-gray-100 ml-64">
             {/* Navbar */}
-            <nav className="bg-gray-200 p-4 flex justify-between items-center ">
+            <nav className="bg-gray-200 p-4 flex justify-between items-center">
                 <div className="flex items-center space-x-4">
                     <img src="/logo.png" alt="Hospital Logo" className="h-12" />
                     <span className="text-4xl font-bold">{hospital?.hospitalName}</span>
                 </div>
-                <Link to="/update-details" className="bg-orange-500 px-4 py-2 rounded-md hover:bg-orange-600">
-                    Update Details
-                </Link>
+                <div className="flex items-center space-x-1">
+                    <Link
+                        to="/update-details"
+                        className="bg-orange-500 px-4 py-2 rounded-md hover:bg-orange-600"
+                    >
+                        Update Details
+                    </Link>
+                    <button
+                        className="bg-green-500 px-4 py-2 rounded-md hover:bg-green-600"
+                        onClick={handleAddDoctorClick}
+                    >
+                        Add Doctor
+                    </button>
+                </div>
             </nav>
+
+
 
             {/* Hospital Profile Card */}
             <div className="max-w-4xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
@@ -70,3 +89,4 @@ const HospitalProfile = () => {
 };
 
 export default HospitalProfile;
+
