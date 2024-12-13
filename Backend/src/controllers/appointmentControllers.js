@@ -44,3 +44,30 @@ export const getAppointmentsByUser = async (req, res) => {
   }
 };
 
+
+export const updateAppointmentStatus = async (req, res) => {
+  const { appointmentId } = req.params;
+  const { status } = req.body;
+
+  try {
+    // Find and update the appointment
+    const updatedAppointment = await Appointment.findByIdAndUpdate(
+      appointmentId,
+      { status },
+      { new: true } // Returns the updated document
+    );
+
+    if (!updatedAppointment) {
+      return res.status(404).json({ error: "Appointment not found" });
+    }
+
+    // Emit a socket event to notify all clients about the update
+    const io = req.app.get("io"); // io is attached to the app instance
+    io.emit("statusUpdated", appointment);
+
+    res.status(200).json(updatedAppointment);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Server error", details: err.message });
+  }
+};
