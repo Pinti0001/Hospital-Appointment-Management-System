@@ -24,6 +24,7 @@ import PtMessages from './pages/patient/PtMessages';
 import PatientProfile from './pages/patient/PatientProfile';
 import Footer from './components/footer/Footer';
 import CreateDoctor from './pages/hospital/DoctorInfo';
+import DoctorList from './pages/hospital/Staff';
 
 const socket = io("http://localhost:8070"); // Connect to the server
 
@@ -82,6 +83,7 @@ function App() {
                 <Route path="/ptmessages" element={<PtMessages />} />
                 <Route path="/patientprofile" element={<PatientProfile />} />
                 <Route path="/add-doctor" element={<CreateDoctor />} />
+                <Route path="/staff" element={<DoctorList />} />
             </Routes>
 
             <Footer className={isSidebarNav ? 'ml-[256px]' : ''} />
