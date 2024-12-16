@@ -39,14 +39,14 @@ const HospitalProfile = () => {
         navigate("/add-doctor");
     };
 
-    if (loading) return <div className="ml-64">Loading...</div>;
-    if (error) return <div className="ml-64">{error}</div>;
+    if (loading) return <div className="md:ml-64 mt-10">Loading...</div>;
+    if (error) return <div className="md:ml-64 mt-10">{error}</div>;
 
     return (
-        <div className="min-h-screen bg-gray-100 ml-64">
+        <div className="min-h-screen bg-gray-100 md:ml-64">
             {/* Navbar */}
             <nav className="bg-gray-200 p-4 flex justify-between items-center">
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center pl-12 space-x-4">
                     <img src={hslogo} alt="Hospital Logo" className="h-12" />
                     <span className="text-4xl font-bold">{hospital?.hospitalName}</span>
                 </div>
@@ -66,12 +66,10 @@ const HospitalProfile = () => {
                 </div>
             </nav>
 
-
-
             {/* Hospital Profile Card */}
             <div className="max-w-4xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
                 <h2 className="text-2xl font-bold text-gray-800 mb-4">Hospital Profile</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
                         <p><strong>Hospital Name:</strong> {hospital?.hospitalName}</p>
                         <p><strong>Address:</strong> {hospital?.hospitalAddress}</p>
@@ -90,4 +88,3 @@ const HospitalProfile = () => {
 };
 
 export default HospitalProfile;
-
