@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8070/api/";
+const API_URL = "https://hospital-appointment-management-system-1.onrender.com/api/";
 
 // Signup Function
 export const hospitalSignup = async (userData) => {
