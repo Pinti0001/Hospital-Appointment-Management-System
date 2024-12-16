@@ -158,6 +158,15 @@ export const fetchFeedbacks = async () => {
   }
 };
 
+export const createDoctor = async (doctorData) => {
+  try {
+    const response = await axios.post(`${API_URL}doctors/createdoctor`, doctorData);
+    return response.data;
+  } catch (error) {
+    console.error("Error adding new doctor:", error.response?.data || error.message);
+    throw error.response?.data || { message: "Failed to add doctor" };
+  }
+};
 
 export const updateAppointmentStatus = async (appointmentId, status) => {
   try {
@@ -166,5 +175,15 @@ export const updateAppointmentStatus = async (appointmentId, status) => {
   } catch (error) {
     console.error("Error updating appointment status:", error.response?.data || error.message);
     throw error.response?.data || { message: "Failed to update appointment status" };
+  }
+};
+
+export const getAllDoctors = async () => {
+  try {
+    const response = await axios.get(`${API_URL}doctors/getalldoctors`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching feedbacks:", error);
+    throw error;
   }
 };
