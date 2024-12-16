@@ -51,12 +51,12 @@ const HospitalProfile = () => {
                     <span className="text-4xl font-bold">{hospital?.hospitalName}</span>
                 </div>
                 <div className="flex items-center space-x-1">
-                    <Link
+                    {/* <Link
                         to="/update-details"
                         className="bg-orange-500 px-4 py-2 rounded-md hover:bg-orange-600"
                     >
                         Update Details
-                    </Link>
+                    </Link> */}
                     <button
                         className="bg-green-500 px-4 py-2 rounded-md hover:bg-green-600"
                         onClick={handleAddDoctorClick}
