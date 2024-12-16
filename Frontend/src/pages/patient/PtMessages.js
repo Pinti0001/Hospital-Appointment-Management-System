@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useSelector } from "react-redux";
-import { fetchUserAppointments } from "../services/Api";
+import { fetchUserAppointments, fetchAppointments } from "../services/Api";
 import { useSocket } from "../../hooks/useSocket";
 
 export default function PtMessages() {
@@ -11,6 +11,7 @@ export default function PtMessages() {
   const [error, setError] = useState(null);
 
   const updateAppointment = useCallback((data) => {
+    console.log("Updating appointment with data:", data);
     setAppointments((prevAppointments) =>
       prevAppointments.map((appointment) =>
         appointment._id === data._id ? { ...appointment, ...data } : appointment
@@ -19,16 +20,66 @@ export default function PtMessages() {
   }, []);
 
   useSocket((socket) => {
-    socket.on("statusUpdated", updateAppointment);
-  });
+    console.log("Socket instance initialized:", socket);
+    console.log("Socket connected:", socket.connected)
+
+    // // Listen for the "statusUpdated" event
+    // socket.on("statusUpdated", (updatedAppointment) => {
+    //   console.log("Socket received statusUpdated:", updatedAppointment); // Debug log
+    //   updateAppointment(updatedAppointment);
+    // });
+
+    socket.on("statusUpdated", (updatedAppointment) => {
+      console.log("Received status update:", updatedAppointment);
+      
+      // Update appointments list
+      setAppointments((prevAppointments) =>
+        prevAppointments.map((appointment) =>
+          appointment._id === updatedAppointment._id ? updatedAppointment : appointment
+        )
+      );
+
+      // Update selected appointment if it's the one that was updated
+      if (selectedAppointment?._id === updatedAppointment._id) {
+        setSelectedAppointment(updatedAppointment);
+      }
+    });
+
+    // Cleanup listener when the component unmounts
+    return () => {
+      socket.off("statusUpdated");
+    };
+  }, [updateAppointment]);
+  // useSocket((socket) => {
+  //   console.log("Socket connected:", socket.connected);
+  
+  //   const handleStatusUpdate = (updatedAppointment) => {
+  //     console.log("Received real-time update:", updatedAppointment);
+  //     setAppointments((prevAppointments) =>
+  //       prevAppointments.map((appointment) =>
+  //         appointment._id === updatedAppointment._id ? { ...appointment, ...updatedAppointment } : appointment
+  //       )
+  //     );
+  //   };
+  
+  //   // Attach the listener
+  //   socket.on("statusUpdated", handleStatusUpdate);
+  
+  //   // Clean up on unmount
+  //   return () => {
+  //     socket.off("statusUpdated", handleStatusUpdate);
+  //   };
+  // }, []);
 
   useEffect(() => {
     const loadAppointments = async () => {
       try {
+        setLoading(true);
         const data = await fetchUserAppointments(userObjectId);
         setAppointments(data);
       } catch (err) {
         setError("Failed to load appointments.");
+        console.error("Error loading appointments:", err.message);
       } finally {
         setLoading(false);
       }
@@ -38,6 +89,22 @@ export default function PtMessages() {
       loadAppointments();
     }
   }, [userObjectId]);
+  // useEffect(() => {
+  //   const loadAppointments = async () => {
+  //     try {
+  //       const data = await fetchUserAppointments(userObjectId);
+  //       setAppointments(data);
+  //     } catch (err) {
+  //       setError("Failed to load appointments.");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   if (userObjectId) {
+  //     loadAppointments();
+  //   }
+  // }, [userObjectId]);
 
   const handleAppointmentClick = (appointment) => {
     setSelectedAppointment(appointment);

@@ -44,7 +44,7 @@ app.use("/api/doctor", doctorRoutes)
 const server = http.createServer(app);
 const io = new SocketIOServer(server, {
   cors: {
-    origin: "*", // Adjust this to restrict origins if needed
+    origin: "http://localhost:3000", 
     methods: ["GET", "POST"],
   },
 });
@@ -53,19 +53,25 @@ app.set("io", io);
 
 // Socket.IO setup
 io.on("connection", (socket) => {
-  console.log("A user connected");
+  console.log("A user connected", socket.id);
 
   // Listen for appointment booking events
-  socket.on("appointmentBooked", (data) => {
-    console.log("Appointment booked:", data);
+  socket.on("appointmentUpdated", (appointmentData) => {
+    console.log("Server received appointmentUpdated:", appointmentData);
 
     // Emit the update to all connected clients
-    io.emit("appointmentUpdate", data);
+    io.emit("statusUpdated", appointmentData);
   });
 
   // Handle disconnection
-  socket.on("disconnect", () => {
-    console.log("User disconnected");
+  // socket.on("disconnect", () => {
+  //   console.log("User disconnected",socket.id );
+  // });
+  socket.on("disconnect", (reason) => {
+    console.error(`User disconnected: ${socket.id}, Reason: ${reason}`);
+  });
+  socket.on("error", (error) => {
+    console.error(`Socket error: ${error}`);
   });
 });
 
