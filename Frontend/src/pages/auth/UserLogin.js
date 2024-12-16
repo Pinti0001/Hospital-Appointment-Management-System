@@ -18,7 +18,7 @@ const UserLogin = () => {
 
     if (name === "credential") {
       // Check if input contains an "@" to classify as email
-      setIsEmail(/^[A-Za-z]+$/.test(value));
+      setIsEmail(/^[A-Za-z]+$/.test(value) || value.includes("@"));
     }
 
     setFormData({ ...formData, [name]: value });
