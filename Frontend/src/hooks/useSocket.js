@@ -4,7 +4,7 @@
 import { useEffect } from "react";
 import { io } from "socket.io-client";
 
-const SOCKET_URL = io("http://localhost:8070");
+const SOCKET_URL = io("https://hospital-appointment-management-system-1.onrender.com");
 
 // export const useSocket = (onEvent, eventName = "appointmentUpdate") => {
 //     useEffect(() => {
