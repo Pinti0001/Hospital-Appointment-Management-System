@@ -34,7 +34,20 @@ const hospitalSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  location: {
+    type: {
+      type: String,
+      enum: ["Point"], // 'location.type' must be 'Point'
+      required: true,
+    },
+    coordinates: {
+      type: [Number], // [longitude, latitude]
+      required: true,
+    },
+  },
 });
+
+hospitalSchema.index({ location: "2dsphere" }); // Geospatial index
 
 hospitalSchema.virtual("doctors", {
   ref: "Doctor",
@@ -43,8 +56,6 @@ hospitalSchema.virtual("doctors", {
 });
 
 hospitalSchema.set("toJSON", { virtuals: true });
-// hospitalSchema.set("toObject", { virtuals: true });
-
 
 const Hospital = mongoose.model("Hospital", hospitalSchema);
 export default Hospital;

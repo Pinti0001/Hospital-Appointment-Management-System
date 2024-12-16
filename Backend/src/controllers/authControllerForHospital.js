@@ -4,11 +4,24 @@ import { generateToken } from "../config/jwt.js";
 
 // Hospital Signup
 export const signupHospital = async (req, res) => {
-  const { email, password, hospitalName, hospitalAddress, state, district, city, mobile, userType } = req.body;
+  const {
+    email,
+    password,
+    hospitalName,
+    hospitalAddress,
+    state,
+    district,
+    city,
+    mobile,
+    userType,
+    location, // Destructure location from request body
+  } = req.body;
 
   try {
     const existingHospital = await Hospital.findOne({ email });
-    if (existingHospital) return res.status(400).json({ message: "Email already exists" });
+    if (existingHospital) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -18,10 +31,11 @@ export const signupHospital = async (req, res) => {
       hospitalName,
       hospitalAddress,
       state,
-      userType,
       district,
       city,
       mobile,
+      userType,
+      location, // Include location in the database record
     });
 
     const token = generateToken(hospital._id);
@@ -36,7 +50,8 @@ export const signupHospital = async (req, res) => {
       state: hospital.state,
       district: hospital.district,
       city: hospital.city,
-      _id: hospital._id
+      location: hospital.location, // Return location in the response
+      _id: hospital._id,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

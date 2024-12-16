@@ -1,16 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
-import { fetchAppointments } from '../services/Api';
+import { fetchAppointments, updateAppointmentStatus } from '../services/Api';
+import { useSocket } from '../../hooks/useSocket';
 
 export default function AppointmentList({ hospitalId }) {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // const updateAppointment = useCallback((data) => {
+  //   setAppointments((prevAppointments) =>
+  //     prevAppointments.map((appointment) =>
+  //       appointment._id === data._id ? { ...appointment, ...data } : appointment
+  //     )
+  //   );
+  // }, []);
+
+  useSocket((socket) => {
+  socket.on("statusUpdated", (updatedAppointment) => {
+    setAppointments((prevAppointments) =>
+      prevAppointments.map((appointment) =>
+        appointment._id === updatedAppointment._id ? updatedAppointment : appointment
+      )
+    );
+  });
+});
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchAppointments("67513dcad5862c772b7e46c1");
+        const data = await fetchAppointments('675bda13097d0515df582f0a');
         setAppointments(data);
         setLoading(false);
       } catch (err) {
@@ -21,52 +41,69 @@ export default function AppointmentList({ hospitalId }) {
     fetchData();
   }, [hospitalId]);
 
-  // Change the status
   const handleStatusChange = async (appointmentId, newStatus) => {
     try {
-      const response = await axios.patch(`/api/appointments/${appointmentId}`, { status: newStatus });
+      // Call the API to update the status
+      const updatedAppointment = await updateAppointmentStatus(appointmentId, newStatus);
+  
+      // Update the state with the new appointment data
       setAppointments((prevAppointments) =>
         prevAppointments.map((appointment) =>
-          appointment._id === appointmentId ? response.data : appointment
+          appointment._id === appointmentId ? updatedAppointment : appointment
         )
       );
     } catch (err) {
-      console.error('Failed to update status', err);
+      console.error("Failed to update status:", err.message);
     }
   };
+  
+  
+  
 
   if (loading) return <div className="ml-64 mt-10">Loading appointments...</div>;
   if (error) return <div className="ml-64 mt-10">{error}</div>;
 
   return (
-    <div className="appointment-list grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 ml-64 mt-10 px-4">
-      {appointments.map((appointment) => (
-        <div className="appointment-card bg-white border border-gray-300 rounded-lg shadow-lg p-6" key={appointment._id}>
-          <div className="appointment-header mb-4">
-            <h3 className="text-xl font-semibold">{appointment.patientName}</h3>
-            <p className="text-sm text-gray-500">{appointment.patientPhone}</p>
-            <p className="text-sm text-gray-500">{appointment.patientEmail}</p>
-          </div>
-
-          <div className="appointment-body mb-4">
-            <p><strong>Symptoms:</strong> {appointment.symptoms || 'Not provided'}</p>
-            <p><strong>Appointment Date:</strong> {new Date(appointment.date).toLocaleString()}</p>
-          </div>
-
-          <div className="appointment-footer flex justify-between items-center">
-            <p className="text-sm">Status: {appointment.status}</p>
-            <select
-              className="border border-gray-300 rounded px-2 py-1"
-              value={appointment.status}
-              onChange={(e) => handleStatusChange(appointment._id, e.target.value)}
-            >
-              <option value="Scheduled">Scheduled</option>
-              <option value="Completed">Completed</option>
-              <option value="Cancelled">Cancelled</option>
-            </select>
+    <>
+      <nav className="bg-gray-200 p-4 fixed top-0 w-full ml-[256px] z-10 shadow-md">
+        <div className="flex items-center justify-between px-10">
+          <div className="flex items-center space-x-10">
+            <img src="/logo.png" alt="Hospital Logo" className="h-12" />
+            <span className="text-4xl font-bold">Hospital Name</span>
           </div>
         </div>
-      ))}
-    </div>
+      </nav>
+
+      <div className="appointment-list grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 ml-64 px-4 py-24">
+        {appointments.map((appointment) => (
+          <div className="appointment-card bg-white border border-gray-300 rounded-lg shadow-lg p-6" key={appointment._id}>
+            <div className="appointment-header mb-4">
+              <h3 className="text-xl font-semibold">{appointment.patientName}</h3>
+              <p className="text-sm text-gray-500">{appointment.patientPhone}</p>
+              <p className="text-sm text-gray-500">{appointment.patientEmail}</p>
+            </div>
+
+            <div className="appointment-body mb-4">
+              <p><strong>Symptoms:</strong> {appointment.symptoms || 'Not provided'}</p>
+              <p><strong>Appointment Date:</strong> {new Date(appointment.date).toLocaleString()}</p>
+            </div>
+
+            <div className="appointment-footer flex justify-between items-center">
+              <p className="text-sm">Status: {appointment.status}</p>
+              <select
+                className="border border-gray-300 rounded px-2 py-1"
+                value={appointment.status} 
+                onChange={(e) => handleStatusChange(appointment._id, e.target.value)}
+              >
+                <option value="Scheduled">Scheduled</option>
+                <option value="Completed">Completed</option>
+                <option value="Cancelled">Cancelled</option>
+              </select>
+
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }

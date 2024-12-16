@@ -12,7 +12,6 @@ export const hospitalSignup = async (userData) => {
     throw error.response?.data || { message: "Signup failed" };
   }
 };
-
 // Login Function
 export const hospitalLogin = async (loginData) => {
   try {
@@ -56,14 +55,23 @@ export const getHospitalData = async (hospitalId) => {
     throw error.response?.data || { message: "Error fetching hospital data" };
   }
 }
-
-// Fetch All Hospitals
-export const fetchHospitals = async () => {
+export const fetchDoctorsByHospitalId = async (hospitalId) => {
   try {
-    const response = await axios.get(`${API_URL}user/getallhospital`);
-    return (response.data);
+    const response = await axios.get(`${API_URL}doctor/${hospitalId}`);
+    return response.data; // Assuming this returns the list of doctors
   } catch (error) {
-    throw error.response?.data || { message: "Error fetching hospital List" };
+    throw error.response?.data || { message: "Error fetching doctors list" };
+  }
+};
+
+export const fetchHospitals = async (latitude, longitude) => {
+  try {
+    const response = await axios.get(`${API_URL}user/getNearbyHospitals`, {
+      params: { latitude, longitude },
+    });
+    return response.data; // Assuming this returns the hospital data
+  } catch (error) {
+    throw error.response?.data || { message: "Error fetching hospital list" };
   }
 };
 
@@ -71,7 +79,7 @@ export const fetchAppointments = async (uniqueId) => {
   try {
     const response = await axios.get(
       `${API_URL}appointments/getappointment?uniqueId=${uniqueId}`
-    ); //uniqueId is the Hospital Id
+    );
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: "Error fetching hospital List" };
@@ -84,6 +92,98 @@ export const bookAppointment = async (appointmentData) => {
     return response.data;
   } catch (error) {
     console.error("Error booking appointment:", error);
+    throw error;
+  }
+};
+
+
+export const fetchUserAppointments = async (userId) => {
+  try {
+    const response = await axios.get(`${API_URL}appointments/getuserappointment?userId=${userId}`);
+    return response.data;
+  } catch (err) {
+    console.log("Failed to fetch appointments. Please try again later.");
+    throw err
+  }
+ 
+};
+
+
+export const getUserDetails = async (userId) => {
+  try {
+    const response = await axios.get(`${API_URL}user/getuserDetails?userId=${userId}`);
+    return response.data;
+  } catch (err) {
+    console.log("Failed to fetch appointments. Please try again later.");
+    throw err
+  }
+ 
+};
+export const saveAdditionalDetails = async (userId, additionalDetails) => {
+  const formData = new FormData();
+  Object.keys(additionalDetails).forEach((key) => {
+    formData.append(key, additionalDetails[key]);
+  });
+
+  try {
+    await axios.put(`${API_URL}user/update/${userId}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data", // Set the content type to multipart/form-data
+      },
+    });
+    return "Details updated successfully!";
+  } catch (error) {
+    console.log("Error updating details ", error);
+    throw new Error("Failed to update details");
+  }
+};
+
+export const submitFeedback = async (appointmentId, feedbackData) => {
+  try {
+    await axios.post(`${API_URL}review/${appointmentId}/feedback`, feedbackData);
+    return ("Feedback submitted successfully!");
+  } catch (error) {
+    console.log("Error submitting feedback ", error);
+    
+  }
+};
+
+export const fetchFeedbacks = async () => {
+  try {
+    const response = await axios.get(`${API_URL}review/feedbacks`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching feedbacks:", error);
+    throw error;
+  }
+};
+
+export const createDoctor = async (doctorData) => {
+  try {
+    const response = await axios.post(`${API_URL}doctors/createdoctor`, doctorData);
+    return response.data;
+  } catch (error) {
+    console.error("Error adding new doctor:", error.response?.data || error.message);
+    throw error.response?.data || { message: "Failed to add doctor" };
+  }
+};
+
+export const updateAppointmentStatus = async (appointmentId, status) => {
+  try {
+    const response = await axios.patch(`${API_URL}appointments/${appointmentId}`, { status });
+    return response.data; // Returns updated appointment data
+  } catch (error) {
+    console.error("Error updating appointment status:", error.response?.data || error.message);
+    throw error.response?.data || { message: "Failed to update appointment status" };
+  }
+};
+
+export const getAllDoctors = async () => {
+  try {
+    const response = await axios.get(`${API_URL}doctors/getalldoctors`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching feedbacks:", error);
     throw error;
   }
 };

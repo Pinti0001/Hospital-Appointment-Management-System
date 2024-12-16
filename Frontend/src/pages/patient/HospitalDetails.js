@@ -1,10 +1,26 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import UserNav from "../../components/navbar/UserNav";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useParams } from "react-router-dom";
+import { fetchDoctorsByHospitalId } from "../services/Api";
 
 const HospitalDetails = () => {
   const { state } = useLocation();
+  const { hospitalId } = useParams(); // Get hospital ID from params
   const hospital = state?.hospital;
+  const [doctors, setDoctors] = useState([]);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (hospitalId) {
+      fetchDoctorsByHospitalId(hospitalId)
+        .then((response) => {
+          setDoctors(response.data);
+        })
+        .catch((err) => {
+          console.error("Error fetching doctors:", err);
+          setError("Error fetching doctors.");
+        });
+    }
+  }, []);
 
   if (!hospital) {
     return <p>No hospital data found. Please select a hospital.</p>;
@@ -12,11 +28,8 @@ const HospitalDetails = () => {
 
   return (
     <div className="flex">
-      <div className="fixed w-64 h-full">
-        <UserNav />
-      </div>
+      <div className="fixed w-64 h-full"></div>
 
-      {/* Content */}
       <div className="ml-64 flex-1 bg-gray-100 p-6">
         <h1 className="text-3xl font-bold text-orange-600 text-center mb-6">
           {hospital.hospitalName}
@@ -25,9 +38,11 @@ const HospitalDetails = () => {
         <p className="text-center text-gray-500">
           {hospital.city}, {hospital.district}, {hospital.state}
         </p>
+
         <h2 className="text-2xl font-semibold text-gray-800 mt-6">Doctors</h2>
+        {error && <p className="text-red-500">{error}</p>}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-          {hospital.doctors.map((doctor) => (
+          {doctors.map((doctor) => (
             <div
               key={doctor._id}
               className="bg-white shadow-lg rounded-lg p-5 flex flex-col gap-4 hover:shadow-xl transition-shadow"
@@ -35,12 +50,10 @@ const HospitalDetails = () => {
               <h3 className="text-xl font-bold text-gray-800">{doctor.name}</h3>
               <p className="text-orange-500">{doctor.specialization}</p>
               <div>
-                <h4 className="font-semibold text-gray-800">
-                  Available Slots:
-                </h4>
+                <h4 className="font-semibold text-gray-800">Available Slots:</h4>
                 <ul className="list-disc pl-5 text-gray-600">
-                  {doctor.availableSlots.map((slot) => (
-                    <li key={slot._id}>
+                  {doctor.availableSlots.map((slot, index) => (
+                    <li key={index}>
                       {slot.date} at {slot.time}
                     </li>
                   ))}

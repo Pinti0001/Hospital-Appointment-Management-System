@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaUserPlus } from "react-icons/fa";
 import { Link,  useNavigate  } from "react-router-dom";
-import { hospitalSignup } from "../services/Api"; // Assume this is the API for signup
+import { hospitalSignup } from "../services/Api"; 
 import { useDispatch, useSelector } from "react-redux";
 import { setHospitalInfo } from "../../slice/hospitalInfo";
 
@@ -21,6 +21,22 @@ const HospitalSignup = () => {
   });
   const [states,setStates] = useState([]);
   const [districts,setDistricts] = useState([]);
+  
+  const navigate = useNavigate();
+  const [hospitalLocation, setHospitalLocation] = useState(null); 
+  const [locationError, setLocationError] = useState(null);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+  useEffect(() => {
+    setStates(indianStates);
+  }, []);
+  useEffect(() => {
+    if (formData.state) {
+      setDistricts(statesAndDistricts[formData.state] || []);
+    }
+  }, [formData.state]);
   const indianStates = [
     "Andhra Pradesh",
     "Arunachal Pradesh",
@@ -144,56 +160,76 @@ const HospitalSignup = () => {
     ]
   };
 
-  const navigate = useNavigate(); 
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
   useEffect(() => {
-    setStates(indianStates);
+    const getHospitalLocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            setHospitalLocation({ latitude, longitude });
+          },
+          (error) => {
+            alert("Unable to retrieve your location.");
+          }
+        );
+      } else {
+        setLocationError("Geolocation is not supported by this browser.");
+      }
+    };
+    getHospitalLocation();
   }, []);
-  useEffect(() => {
-    if (formData.state) {
-      setDistricts(statesAndDistricts[formData.state] || []);
-    }
-  }, [formData.state]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
   
-    try { 
+    if (!hospitalLocation) {
+      alert("Unable to get your location. Please enable location services and try again.");
+      return;
+    }
+  
+    try {
       const response = await hospitalSignup({
         ...formData,
         userType: "hospital", // Set userType to hospital explicitly
+        location: {
+          type: "Point", // Required by the schema
+          coordinates: [hospitalLocation.longitude, hospitalLocation.latitude], // Ensure correct [longitude, latitude] order
+        },
       });
+  
       dispatch(
         setHospitalInfo({
-          hospitalName: response.hospitalName,
           email: response.email,
-          number: response.mobile,
-          address: response.hospitalAddress,
+          password: response.password, // Ensure this is securely handled; avoid sending passwords in plain text
+          hospitalName: response.hospitalName,
+          hospitalAddress: response.hospitalAddress,
           state: response.state,
           district: response.district,
-          city_pinCode: response.city,
+          city: response.city,
+          mobile: response.mobile,
+          location: {
+            type: "Point", // Required by the schema
+            coordinates: [hospitalLocation.longitude, hospitalLocation.latitude],
+          },
           hospitalObjectId: response._id,
         })
       );
+  
       localStorage.setItem("token", response.token);
       localStorage.setItem("email", response.email);
-      localStorage.setItem("hospitalId", response._id)
-        alert("Signup successful!");
-        navigate("/hospitaldashboard");
-      
+      localStorage.setItem("hospitalId", response._id);
+      alert("Signup successful!");
+      navigate("/hospitaldashboard");
     } catch (error) {
       alert(error.message || "Signup failed");
     }
   };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">

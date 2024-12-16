@@ -1,6 +1,22 @@
 
 import Doctor from '../models/Doctor.js';
 
+export const getDoctorsByHospitalId = async (req, res) => {
+  const { hospitalId } = req.params;
+  console.log(hospitalId)
+  try {
+    const doctors = await Doctor.find({ hospital: hospitalId }).populate("hospital", "hospitalName hospitalAddress");
+    if (!doctors || doctors.length === 0) {
+      return res.status(404).json({ message: "No doctors found for this hospital." });
+    }
+    res.status(200).json({ success: true, data: doctors });
+  } catch (error) {
+    console.error("Error fetching doctors:", error);
+    res.status(500).json({ message: "Error fetching doctors. Please try again." });
+  }
+};
+
+
 // Get all doctors
 export const getAllDoctors = async (req, res) => {
     try {

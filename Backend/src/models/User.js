@@ -1,4 +1,5 @@
-import mongoose from "mongoose";
+
+import mongoose from "mongoose"
 
 const userSchema = new mongoose.Schema({
   mobile: {
@@ -17,9 +18,25 @@ const userSchema = new mongoose.Schema({
   },
   userType: {
     type: String,
-    enum: ["user", "admin"], 
+    enum: ["user", "admin"],
     default: "user",
   },
+  name: {
+    type: String,
+    required: false,
+  },
+  dob: {
+    type: Date,
+    required: false,
+  },
+  image: {
+    type: String, // Stores the Cloudinary URL
+    required: false,
+  },
+  appointments: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Appointment', // Reference to Appointment model
+  }],
 });
 
 const User = mongoose.model("User", userSchema);
