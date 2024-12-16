@@ -72,7 +72,7 @@ const UserLogin = () => {
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-600">
-              {formData.credential === "" ? "Enter Your Email Or Phone Number" : isEmail ? "Email" : "Phone Number"}
+              {formData.credential === "" ? "Enter Your Email Or Phone Number" : isEmail ? "Enter Your Email Or Phone Number" : "Enter Your Email Or Phone Number"}
             </label>
             <input
               type="text"
