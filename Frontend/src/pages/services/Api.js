@@ -177,3 +177,13 @@ export const updateAppointmentStatus = async (appointmentId, status) => {
     throw error.response?.data || { message: "Failed to update appointment status" };
   }
 };
+
+export const getAllDoctors = async () => {
+  try {
+    const response = await axios.get(`${API_URL}doctors/getalldoctors`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching feedbacks:", error);
+    throw error;
+  }
+};
