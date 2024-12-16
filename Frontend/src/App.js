@@ -86,7 +86,7 @@ function App() {
                 <Route path="/staff" element={<DoctorList />} />
             </Routes>
 
-            <Footer className={isSidebarNav ? 'ml-[256px]' : ''} />
+            <Footer className={`${isSidebarNav ? 'ml-0 md:ml-[256px]' : 'ml-0'}`} />
 
             {/* Display real-time appointment update */}
             {appointmentUpdate && (
