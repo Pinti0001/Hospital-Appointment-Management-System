@@ -28,8 +28,6 @@ const HospitalDetails = () => {
 
   return (
     <div className="flex">
-      <div className="fixed w-64 h-full"></div>
-
       <div className="ml-64 flex-1 bg-gray-100 p-6">
         <h1 className="text-3xl font-bold text-orange-600 text-center mb-6">
           {hospital.hospitalName}
