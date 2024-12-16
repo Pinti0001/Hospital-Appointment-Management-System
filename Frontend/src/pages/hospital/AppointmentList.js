@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { fetchAppointments, updateAppointmentStatus } from '../services/Api';
 import { useSocket } from '../../hooks/useSocket';
+import hslogo from '../../assets/aadhar.png'
 
 export default function AppointmentList({ hospitalId }) {
   const [appointments, setAppointments] = useState([]);
@@ -68,7 +69,7 @@ export default function AppointmentList({ hospitalId }) {
       <nav className="bg-gray-200 p-4 fixed top-0 w-full ml-[256px] z-10 shadow-md">
         <div className="flex items-center justify-between px-10">
           <div className="flex items-center space-x-10">
-            <img src="/logo.png" alt="Hospital Logo" className="h-12" />
+            <img src={hslogo} alt="Hospital Logo" className="h-12" />
             <span className="text-4xl font-bold">Hospital Name</span>
           </div>
         </div>

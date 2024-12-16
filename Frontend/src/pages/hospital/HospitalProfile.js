@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getHospitalData } from "../services/Api"; // Import the API function
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import hslogo from '../../assets/aadhar.png'
 
 const HospitalProfile = () => {
     const [hospital, setHospital] = useState(null);
@@ -46,7 +47,7 @@ const HospitalProfile = () => {
             {/* Navbar */}
             <nav className="bg-gray-200 p-4 flex justify-between items-center">
                 <div className="flex items-center space-x-4">
-                    <img src="/logo.png" alt="Hospital Logo" className="h-12" />
+                    <img src={hslogo} alt="Hospital Logo" className="h-12" />
                     <span className="text-4xl font-bold">{hospital?.hospitalName}</span>
                 </div>
                 <div className="flex items-center space-x-1">
