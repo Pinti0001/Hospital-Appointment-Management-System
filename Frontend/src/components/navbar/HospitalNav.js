@@ -59,7 +59,7 @@ const HospitalNav = () => {
                     link="/schedule"
                     isCollapsed={isCollapsed}
                 />
-                <NavItem
+                {/* <NavItem
                     icon={<FcReading className="w-6 h-6" />}
                     text="Patient Record"
                     link="/patient-record"
@@ -70,7 +70,7 @@ const HospitalNav = () => {
                     text="Messages"
                     link="/messages"
                     isCollapsed={isCollapsed}
-                />
+                /> */}
                 <NavItem
                     icon={<FaHospitalUser className="w-6 h-6" />}
                     text="Hospital Profile"
