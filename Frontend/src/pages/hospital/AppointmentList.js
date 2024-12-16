@@ -8,13 +8,13 @@ export default function AppointmentList({ hospitalId }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const updateAppointment = useCallback((data) => {
-    setAppointments((prevAppointments) =>
-      prevAppointments.map((appointment) =>
-        appointment._id === data._id ? { ...appointment, ...data } : appointment
-      )
-    );
-  }, []);
+  // const updateAppointment = useCallback((data) => {
+  //   setAppointments((prevAppointments) =>
+  //     prevAppointments.map((appointment) =>
+  //       appointment._id === data._id ? { ...appointment, ...data } : appointment
+  //     )
+  //   );
+  // }, []);
 
   useSocket((socket) => {
   socket.on("statusUpdated", (updatedAppointment) => {

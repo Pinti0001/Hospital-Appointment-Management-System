@@ -60,6 +60,7 @@ export const updateAppointmentStatus = async (req, res) => {
   const { status } = req.body;
 
   try {
+    
     // Find and update the appointment
     const updatedAppointment = await Appointment.findByIdAndUpdate(
       appointmentId,
@@ -70,10 +71,13 @@ export const updateAppointmentStatus = async (req, res) => {
     if (!updatedAppointment) {
       return res.status(404).json({ error: "Appointment not found" });
     }
+    
 
     // Emit a socket event to notify all clients about the update
     const io = req.app.get("io"); // io is attached to the app instance
-    io.emit("statusUpdated", appointment);
+    console.log("Emitting updated appointment:", updatedAppointment);
+    io.emit("statusUpdated", updatedAppointment);
+
 
     res.status(200).json(updatedAppointment);
   } catch (err) {
