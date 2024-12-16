@@ -6,6 +6,7 @@ import playstore from "../../assets/playstore.svg";
 import nha from "../../assets/nhalogo.svg";
 import digital from "../../assets/digitalmissionlogo.svg";
 import FeedbackList from "./FeedbackList";
+import hslogo from '../../assets/aadhar.png'
 
 export default function HospitalDashboard() {
   const [currentImage, setCurrentImage] = useState(0);
@@ -24,7 +25,7 @@ export default function HospitalDashboard() {
       <nav className="bg-gray-200 p-4 fixed top-0 w-full z-10 shadow-md">
         <div className="flex items-center justify-between px-10">
           <div className="flex items-center space-x-10">
-            <img src="/logo.png" alt="Hospital Logo" className="h-12" />
+            <img src={hslogo} alt="Hospital Logo" className="h-12" />
             <span className="text-4xl font-bold">Hospital Name</span>
           </div>
         </div>
@@ -48,7 +49,7 @@ export default function HospitalDashboard() {
               Today's Schedule
             </Link>
             <Link
-              to="/ptfeedback"
+              to="/add-doctor"
               className="inline-block bg-cyan-400 hover:bg-cyan-500 text-white px-6 py-3 my-5 rounded-md text-lg font-medium"
             >
               Add / Manage Staffs
