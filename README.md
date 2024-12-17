@@ -104,12 +104,22 @@ The Doctor/Hospital Interface allows hospitals and doctors to manage appointment
   - React.js (for building interactive UI)
   - Bootstrap/Tailwind CSS (for styling)
   - Google Maps API (for hospital directions)
+  - Redux for State Management
+  - Materical UI for user experience
+  - React icons for Icons
+  - Socket io for real time updates
+    
 
 - **Backend:**
   - Node.js (for handling server-side logic)
   - Express.js (for building RESTful APIs)
   - MongoDB (for storing data such as users, doctors, appointments, reviews, etc.)
   - JWT (for user authentication)
+  - Nodemailer(SMTP) for sending mail to hospital after booking a appointment from user side.
+  - Bcryptjs for user user Security for user data and hashing Password.
+  - Cloudnary for uploading image
+  - Multer for handling Static data like images.
+  - Socket.io for real time updates of Appointment confirmation
 
 - **Other Tools:**
   - Socket.io (for real-time notifications and online consultations)
