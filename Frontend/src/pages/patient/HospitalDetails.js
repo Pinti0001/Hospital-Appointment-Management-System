@@ -20,15 +20,15 @@ const HospitalDetails = () => {
           setError("Error fetching doctors.");
         });
     }
-  }, []);
+  }, [hospitalId]);
 
   if (!hospital) {
     return <p>No hospital data found. Please select a hospital.</p>;
   }
 
   return (
-    <div className="flex">
-      <div className="ml-64 flex-1 bg-gray-100 p-6">
+    <div className="flex flex-col md:flex-row">
+      <div className="md:ml-64 flex-1 bg-gray-100 p-6">
         <h1 className="text-3xl font-bold text-orange-600 text-center mb-6">
           {hospital.hospitalName}
         </h1>
@@ -39,7 +39,7 @@ const HospitalDetails = () => {
 
         <h2 className="text-2xl font-semibold text-gray-800 mt-6">Doctors</h2>
         {error && <p className="text-red-500">{error}</p>}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-4">
           {doctors.map((doctor) => (
             <div
               key={doctor._id}

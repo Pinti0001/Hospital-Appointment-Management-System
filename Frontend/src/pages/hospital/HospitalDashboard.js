@@ -20,11 +20,11 @@ export default function HospitalDashboard() {
   }, []);
 
   return (
-    <div className="relative overflow-hidden ml-64 bg-slate-100 min-h-screen">
+    <div className="relative bg-slate-100 min-h-screen md:ml-64">
       {/* Navbar */}
-      <nav className="bg-gray-200 p-4 fixed top-0 w-full z-10 shadow-md">
-        <div className="flex items-center justify-between px-10">
-          <div className="flex items-center space-x-10">
+      <nav className="bg-gray-200 p-4 fixed top-0 w-full z-20  shadow-md">
+        <div className="flex items-center justify-between px-9 sm:px-10">
+          <div className="flex items-center pl-12 space-x-10">
             <img src={hslogo} alt="Hospital Logo" className="h-12" />
             <span className="text-4xl font-bold">Hospital Name</span>
           </div>
@@ -32,7 +32,7 @@ export default function HospitalDashboard() {
       </nav>
 
       {/* Content Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-10 grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 pt-32 pb-10 grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Left Side Content */}
         <div className="flex flex-col justify-center items-start space-y-6">
           <h1 className="text-4xl sm:text-5xl font-extrabold p-6">
@@ -101,7 +101,7 @@ export default function HospitalDashboard() {
           भारत को बनाये रोग मुक्त
         </h3>
       </div>
-      <FeedbackList/>
+      <FeedbackList />
     </div>
   );
 }

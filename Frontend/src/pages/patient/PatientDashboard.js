@@ -7,7 +7,7 @@ import { Rating } from "@mui/material";
 import { fetchFeedbacks } from "../services/Api";
 
 const PatientDashboard = () => {
-  const navigate = useNavigate("");
+  const navigate = useNavigate();
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
@@ -28,25 +28,23 @@ const PatientDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 ml-64">
+    <div className="min-h-screen md:ml-64 bg-gray-50 text-gray-900">
       {/* Hero Section */}
-      <header className="bg-gradient-to-r from-orange-500 to-indigo-500 text-white py-16 px-8">
+      <header className="bg-gradient-to-r from-orange-500 to-indigo-500 text-white py-16 px-6 sm:px-8">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl font-bold mb-4">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-4">
             Welcome to Your Health Dashboard
           </h1>
-          <p className="text-lg">
+          <p className="text-lg sm:text-xl">
             Book appointments with ease and explore our comprehensive services.
           </p>
         </div>
       </header>
 
       {/* How It Works Section */}
-      <section className="py-16 px-8">
-        <h2 className="text-3xl font-semibold text-center mb-8">
-          How It Works
-        </h2>
-        <div className="grid md:grid-cols-4 gap-8">
+      <section className="py-16 px-6 sm:px-8">
+        <h2 className="text-3xl font-semibold text-center mb-8">How It Works</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {[
             {
               icon: <MdLogin />,
@@ -83,11 +81,9 @@ const PatientDashboard = () => {
       </section>
 
       {/* Services Section */}
-      <section className="py-16 px-8 bg-gray-100">
-        <h2 className="text-3xl font-semibold text-center mb-8">
-          Our Services
-        </h2>
-        <div className="grid md:grid-cols-3 gap-8">
+      <section className="py-16 px-6 sm:px-8 bg-gray-100">
+        <h2 className="text-3xl font-semibold text-center mb-8">Our Services</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {["Appointments", "Medical Consultations", "AI in Medical"].map(
             (service, index) => (
               <motion.div
@@ -106,17 +102,17 @@ const PatientDashboard = () => {
       </section>
 
       {/* Happy Customers Section */}
-      <section className="py-16 px-8 bg-gray-100">
+      <section className="py-16 px-6 sm:px-8 bg-gray-100">
         <h2 className="text-3xl font-semibold text-center mb-8">
           Our Served Patients
         </h2>
         <div className="overflow-x-auto">
-          <div className="flex space-x-6">
+          <div className="flex space-x-6 overflow-scroll">
             {reviews.map((review, index) => (
               <motion.div
                 key={index}
                 whileHover={{ scale: 1.05 }}
-                className="flex-none w-80 p-6 bg-white shadow-md rounded-lg text-center"
+                className="flex-none w-80 sm:w-96 p-6 bg-white shadow-md rounded-lg text-center"
               >
                 {/* Display patient image */}
                 <img
