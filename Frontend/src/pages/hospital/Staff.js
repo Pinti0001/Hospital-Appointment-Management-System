@@ -23,7 +23,7 @@ const DoctorList = () => {
 
     if (loading) {
         return (
-            <div className="text-center text-xl font-semibold mt-10 ml-64">
+            <div className="text-center text-xl font-semibold mt-10 md:ml-64">
                 Loading...
             </div>
         );
@@ -31,17 +31,20 @@ const DoctorList = () => {
 
     if (error) {
         return (
-            <div className="text-center text-red-500 text-xl font-semibold mt-10 ml-64">
+            <div className="text-center text-red-500 text-xl font-semibold mt-10 md:ml-64">
                 Error: {error}
             </div>
         );
     }
 
     return (
-        <div className="ml-64 max-w-7xl mx-auto  p-6">
-            <h1 className="text-4xl font-extrabold text-center mb-8 text-gray-800">
+        <div className="relative bg-slate-100 min-h-screen md:ml-64 px-4 sm:px-6 lg:px-8">
+            {/* Doctors List Title */}
+            <h1 className="text-4xl font-extrabold text-center pt-10 mb-8 text-gray-800">
                 Doctors
             </h1>
+
+            {/* Doctor Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {doctors.map((doctor) => (
                     <div
@@ -66,7 +69,7 @@ const DoctorList = () => {
                                     ))}
                                 </ul>
                             </div>
-                        </div> 
+                        </div>
                     </div>
                 ))}
             </div>
