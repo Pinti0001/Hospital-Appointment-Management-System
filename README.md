@@ -1,4 +1,9 @@
 # Hospital Appointment Management System
+   # Home Page -
+   ![PHOTO-2024-12-17-11-05-02](https://github.com/user-attachments/assets/0a6e849a-16ef-4157-abb2-e9cc79ca5b0a)
+   
+   # How we work - 
+<img width="1665" alt="Screenshot 2024-12-17 at 10 55 32 AM" src="https://github.com/user-attachments/assets/b1d11f5a-47ef-45e0-afdd-f212b5a23009" />
 
 Welcome to the **Hospital Appointment Management System** (HAMS), a full-stack web application designed to streamline the process of booking medical appointments and managing patient interactions. This system provides an intuitive platform for patients and doctors/hospitals to interact with each other efficiently.
 
@@ -26,9 +31,11 @@ Upon visiting the root route, users can choose to either **Book an Appointment**
 ## Features
 
 ### Patient Interface
+
 The Patient Interface is designed to enable patients to book appointments based on their medical needs and locality. 
 
 #### Steps for Interaction:
+<img width="1667" alt="Screenshot 2024-12-17 at 11 00 17 AM" src="https://github.com/user-attachments/assets/949d96f9-0486-4533-9391-7bbe25b3badd" />
 1. **Collect Patient Information:**
    - The system will ask for basic patient details, including the current locality (which can be updated dynamically if the patient is traveling).
    - The patient will also specify their medical issue or problem.
@@ -50,9 +57,11 @@ The Patient Interface is designed to enable patients to book appointments based 
 ---
 
 ### Doctor/Hospital Interface
+
 The Doctor/Hospital Interface allows hospitals and doctors to manage appointments and schedules effectively.
 
 #### Steps for Interaction:
+![PHOTO-2024-12-17-11-03-06](https://github.com/user-attachments/assets/74bde2a9-b9fa-4782-9632-c90424d2f54b)
 1. **Input Hospital Information:**
    - The system allows hospitals to input the number of available doctors and their respective working hours.
    
@@ -63,6 +72,10 @@ The Doctor/Hospital Interface allows hospitals and doctors to manage appointment
 
 3. **Manage Appointments:**
    - Doctors can view their scheduled appointments and manage availability.
+     
+3. **Email Service:**
+   - For each and every appointment booked the hpspital gets a email.
+   - <img width="1356" alt="Screenshot 2024-12-17 at 10 50 50 AM (1)" src="https://github.com/user-attachments/assets/892a475f-637a-4747-95df-2954fb29aa80" />
 
 ---
 
@@ -95,6 +108,10 @@ The Doctor/Hospital Interface allows hospitals and doctors to manage appointment
 
   - **Notifications and Reminders:**  
     - Both patients and hospitals will receive notifications to confirm appointments and remind them of upcoming sessions.
+   
+ - **GPS Enabling:**  
+    - Both patients and hospitals are needed to turn on location service to make use of this feature.
+
 
 ---
 
